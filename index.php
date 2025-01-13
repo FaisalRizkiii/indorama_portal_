@@ -30,6 +30,7 @@
     }
 
     // Close the statement and database connection
+    $result->free();
     $stmt->close();
     $db->close();
     
@@ -45,7 +46,6 @@
         <div class="col-md-11" style="height: 100vh;">
             <div class="container" >
                 <div class="row">
-
                     <!-- NavLogo -->
                     <?php include('navLogo.php') ?>
                     <div class="col-md-12" >

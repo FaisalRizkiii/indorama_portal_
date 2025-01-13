@@ -1,6 +1,4 @@
-<?php 
-
-    // Check if the user is logged in by checking the session
+<?php                                                                                       
     if (!isset($_SESSION['id'])) {
         header("Location: login.php");
         exit();
@@ -8,7 +6,6 @@
 
     $role = $_SESSION['role'];
 ?>
-
 
 <!-- Sidebar -->
 <div class="col-md-1" style="background: linear-gradient(135deg, #0D2F76, #1E497D); width: 80px; height: 100vh; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); display: flex; flex-direction: column; justify-content: center; align-items: center; top: 0; left: 0; z-index: 999; padding-top: 20px; border-radius: 0 20px 20px 0;">

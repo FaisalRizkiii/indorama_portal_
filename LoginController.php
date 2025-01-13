@@ -1,5 +1,6 @@
 <?php
     session_start();
+    
     require_once('../indorama_portal_/lib/db_login.php');
 
     if (isset($_POST['submit'])) {
@@ -27,7 +28,7 @@
             $stmt = $db->prepare($query);
 
             // Use a more secure password hashing mechanism (e.g., password_hash)
-            $hashed_password = md5($password); // Update this to use `password_hash` in the future
+            $hashed_password = md5($password); 
             $stmt->bind_param("ss", $email, $hashed_password);
             $stmt->execute();
 

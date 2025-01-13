@@ -1,10 +1,19 @@
 <?php include('header.php') ?>
 
+<?php
+    session_start();
+
+    if (isset($_SESSION['id'])) {
+        header("Location: index.php");
+        exit();
+    }
+?>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4" style="background: linear-gradient(135deg, #0D2F76, #1E497D); height: 100vh; border-radius: 0px 20px 20px 0px;">
             <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background: linear-gradient(135deg, #0D2F76, #1E497D); color: white;">
-                <h3 style="font-weight: 600; font-size: 30px; margin-bottom: 20px; text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);">
+                <h3 style="font-weight: 640; font-size: 30px; margin-bottom: 20px; text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);">
                     LOGIN
                 </h3>
                 <form action="LoginController.php" method="post" autocomplete="on" style="background: rgba(255, 255, 255, 0.2); padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 15px;">
