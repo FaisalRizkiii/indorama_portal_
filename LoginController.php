@@ -2,54 +2,64 @@
     session_start();
     require_once('../indorama_portal_/lib/db_login.php');
 
-    // Only process if form was submitted
     if (isset($_POST['submit'])) {
         $valid = TRUE;
         $error = '';
-        
-        $email = test_input($_POST['email']);
-        $password = test_input($_POST['password']);
-        if ($email == '') {
+
+        $email = validate($_POST['email']);
+        $password = validate($_POST['password']);
+
+        // Validation
+        if (empty($email)) {
             $valid = FALSE;
             $error = 'Email is required';
-        } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $valid = FALSE;
             $error = 'Invalid email format';
-        } else if ($password == '') {
+        } elseif (empty($password)) {
             $valid = FALSE;
-            $error = 'Password is required';    
+            $error = 'Password is required';
         }
-        
+
+        // Proceed if validation passes
         if ($valid) {
             $query = "SELECT * FROM user WHERE email=? AND password=?";
             $stmt = $db->prepare($query);
-            $hashed_password = md5($password);
+
+            // Use a more secure password hashing mechanism (e.g., password_hash)
+            $hashed_password = md5($password); // Update this to use `password_hash` in the future
             $stmt->bind_param("ss", $email, $hashed_password);
             $stmt->execute();
+
             $result = $stmt->get_result();
-            
-            if (!$result) {
-                $error = "Database error: " . $db->error;
-            } else {
+
+            if ($result) {
                 if ($result->num_rows > 0) {
-                    $_SESSION['username'] = $email;
+                    $user = $result->fetch_assoc();
+                    $_SESSION['id'] = $user['id'];
+                    $_SESSION['user_name'] = $user['name'];
+                    $_SESSION['role'] = $user['role'];
                     header('Location: index.php');
                     exit;
                 } else {
-                    $error = 'Combination of username and password are not correct.';
+                    $error = 'Combination of username and password is not correct.';
                 }
+            } else {
+                $error = "Database error: " . $db->error;
             }
+
+            // Close database connections
             $stmt->close();
             $db->close();
         }
-        
-        // Only redirect if there's an error
+
+        // Redirect with error if validation fails or query fails
         if ($error) {
             header("Location: login.php?error=" . urlencode($error));
             exit;
         }
     } else {
-        // If someone accesses this file directly without submitting the form
+        // Redirect to login if accessed directly
         header("Location: login.php");
         exit;
     }
