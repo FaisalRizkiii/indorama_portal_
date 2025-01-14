@@ -13,6 +13,40 @@
     }
 ?>
 
+<?php
+// Database connection
+require_once('../indorama_portal_/lib/db_login.php');
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Collect form data
+    $name = $db->real_escape_string($_POST['name']);
+    $email = $db->real_escape_string($_POST['email']);
+    $password = $db->real_escape_string($_POST['password']);
+    $role = $db->real_escape_string($_POST['role']);
+
+    // Hash the password (use `password_hash` for security)
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    // Insert new user into the database
+    $query = "INSERT INTO user (name, email, password, role) VALUES (?, ?, ?, ?)";
+    $stmt = $db->prepare($query);
+    $stmt->bind_param("ssss", $name, $email, $hashed_password, $role);
+
+    if ($stmt->execute()) {
+        // Redirect to the user list page after success
+        header("Location: manageUser.php");
+        exit;
+    } else {
+        echo "<p>Error adding user: " . $stmt->error . "</p>";
+    }
+
+    $stmt->close();
+}
+
+$db->close();
+?>
+
+
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
@@ -24,55 +58,37 @@
                     <!-- NavLogo -->
                     <?php include('navLogo.php') ?>
                     <div class="col-md-12" >
-                        <div class="page-header">
-                            <h3 style="font-weight: 600; font-size: 35px">Manage Users</h3>
+                        <div class="form-container" 
+                            style="max-width: 500px; margin: 50px auto; background: #ffffff; border-radius: 8px; 
+                                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 30px;">
+                            <h3 style="font-weight: 600; font-size: 35px; text-align: center; margin-bottom: 20px; color: #333;">
+                                Add User
+                            </h3>
+                            <form method="POST">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="role">Role</label>
+                                    <input type="text" id="role" name="role" class="form-control" placeholder="Choose Role" required>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary" 
+                                            style="background-color: #007bff; border-color: #007bff; margin-right: 10px;">Add User</button>
+                                    <a href="manageUser.php" class="btn btn-primary" 
+                                    style="background-color: #6c757d; border-color: #6c757d;">Cancel</a>
+                                </div>
+                            </form>
                         </div>
-                        <a href="add_user.php" class="btn btn-success" style="margin-bottom: 10px   ;">
-                            <i class="fas fa-user-plus"></i> Add New User
-                        </a>
-                        <table id="userTable" class="table table-bordered table-striped table-hover">
-                            <thead>
-                                <tr class="info">
-                                    <th>ID</th>
-                                    <th>Nama</th>
-                                    <th>Email</th>
-                                    <th>Role</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php 
-                                    // Database connection
-                                    require_once('../indorama_portal_/lib/db_login.php');
-
-                                    $query = "SELECT * FROM user";
-
-                                    $result = $db->query($query);
-                                    if (!$result) {
-                                        die("Could not query the database: <br />" . $db->error . '<br>Query: ' . $query);
-                                    }
-
-                                    while ($row = $result->fetch_object()) {
-                                        echo '<tr>';
-                                        echo '<td>'. $row->id . '</td>';
-                                        echo '<td>'. $row->name . '</td>';
-                                        echo '<td>'. $row->email . '</td>';
-                                        echo '<td>'. $row->role . '</td>';
-                                        echo '<td>';
-                                        echo 
-                                            '
-                                            <a class="btn btn-primary btn-sm" href="edit_user.php?id='.$row->id.'">Edit</a>&nbsp;&nbsp;
-                                            <a class="btn btn-danger btn-sm" href="delete_user.php?id='.$row->id.'">Delete</a>
-                                            ';
-                                        echo '</td>';
-                                        echo '</tr>';
-                                    }
-
-                                    $result->free();
-                                    $db->close();
-                                ?>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>

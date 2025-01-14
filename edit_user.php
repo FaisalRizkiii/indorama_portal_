@@ -55,7 +55,7 @@
 
         if ($stmt->execute()) {
             // Redirect back to the list page after a successful update
-            header("Location: index.php");
+            header("Location: manageUser.php");
             exit;
         } else {
             echo "<p>Error updating user: " . $stmt->error . "</p>";
@@ -79,29 +79,33 @@
                     <!-- NavLogo -->
                     <?php include('navLogo.php') ?>
                     <div class="col-md-12" >
-                        <div class="page-header">
-                            <h3 style="font-weight: 600; font-size: 35px">Editing <?php echo htmlspecialchars($user->name); ?></h3>
+                        <div class="form-container" 
+                            style="max-width: 500px; margin: 50px auto; background: #ffffff; border-radius: 8px; 
+                                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 30px;">
+                            <h3 style="font-weight: 600; font-size: 30px; text-align: center; margin-bottom: 30px; color: #333;">
+                                Editing <?php echo htmlspecialchars($user->name); ?>
+                            </h3>
+                            <form method="POST">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" id="name" name="name" class="form-control" value="<?php echo htmlspecialchars($user->name); ?>" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" name="email" class="form-control" value="<?php echo htmlspecialchars($user->email); ?>" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" id="password" name="password" class="form-control" placeholder="Leave blank to keep current password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="role">Role</label>
+                                    <input type="text" id="role" name="role" class="form-control" value="<?php echo htmlspecialchars($user->role); ?>" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                                <a href="manageUser.php" class="btn btn-primary">Cancel</a>
+                            </form>
                         </div>
-                        <form method="POST">
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" id="name" name="name" class="form-control" value="<?php echo htmlspecialchars($user->name); ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email" class="form-control" value="<?php echo htmlspecialchars($user->email); ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" id="password" name="password" class="form-control" placeholder="Leave blank to keep current password">
-                            </div>
-                            <div class="form-group">
-                                <label for="role">Role</label>
-                                <input type="text" id="role" name="role" class="form-control" value="<?php echo htmlspecialchars($user->role); ?>" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Update</button>
-                            <a href="index.php" class="btn btn-secondary">Cancel</a>
-                        </form>
                     </div>
                 </div>
             </div>
