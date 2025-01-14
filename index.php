@@ -15,7 +15,7 @@
     require_once('../indorama_portal_/lib/db_login.php');
 
     // Fetch the user's name from the database using the id
-    $query = "SELECT name FROM user WHERE id = ?";
+    $query = "SELECT * FROM user WHERE id = ?";
     $stmt = $db->prepare($query);
     $stmt->bind_param("i", $id);
     $stmt->execute();
@@ -24,6 +24,7 @@
     if ($result && $result->num_rows > 0) {
         $user = $result->fetch_assoc();
         $name = $user['name'];
+        $role = $user['role'];
     } else {
         // If no user found or error occurred, you can set a default value
         $name = 'Guest';
@@ -33,7 +34,6 @@
     $result->free();
     $stmt->close();
     $db->close();
-    
 ?>
 
 <div class="container-fluid">

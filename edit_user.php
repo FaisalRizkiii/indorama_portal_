@@ -50,7 +50,7 @@
             // Update with a new password
             $updateQuery = "UPDATE user SET name = ?, email = ?, password = ?, role = ? WHERE id = ?";
             $stmt = $db->prepare($updateQuery);
-            $stmt->bind_param("ssssi", $name, $email, $password, $role, $id);
+            $stmt->bind_param("ssssi", $name, $email, md5($password), $role, $id);
         }
 
         if ($stmt->execute()) {
@@ -81,7 +81,7 @@
                     <div class="col-md-12" >
                         <div class="form-container" 
                             style="max-width: 500px; margin: 50px auto; background: #ffffff; border-radius: 8px; 
-                                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 30px;">
+                                    box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.1); padding: 30px;">
                             <h3 style="font-weight: 600; font-size: 30px; text-align: center; margin-bottom: 30px; color: #333;">
                                 Editing <?php echo htmlspecialchars($user->name); ?>
                             </h3>
@@ -100,7 +100,10 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="role">Role</label>
-                                    <input type="text" id="role" name="role" class="form-control" value="<?php echo htmlspecialchars($user->role); ?>" required>
+                                    <select id="role" name="role" class="form-control" required>
+                                        <option value="user" <?php echo $user->role === 'user' ? 'selected' : ''; ?>>User</option>
+                                        <option value="admin" <?php echo $user->role === 'admin' ? 'selected' : ''; ?>>Admin</option>
+                                    </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Update</button>
                                 <a href="manageUser.php" class="btn btn-primary">Cancel</a>

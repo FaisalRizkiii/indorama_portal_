@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    // Destroy all session data
+    // Destroy all session
     session_destroy();
 
     // Redirect to login page

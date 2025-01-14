@@ -14,36 +14,33 @@
 ?>
 
 <?php
-// Database connection
-require_once('../indorama_portal_/lib/db_login.php');
+    // Database connection
+    require_once('../indorama_portal_/lib/db_login.php');
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Collect form data
-    $name = $db->real_escape_string($_POST['name']);
-    $email = $db->real_escape_string($_POST['email']);
-    $password = $db->real_escape_string($_POST['password']);
-    $role = $db->real_escape_string($_POST['role']);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Collect form data
+        $name = $db->real_escape_string($_POST['name']);
+        $email = $db->real_escape_string($_POST['email']);
+        $password = $db->real_escape_string($_POST['password']);
+        $role = $db->real_escape_string($_POST['role']);
 
-    // Hash the password (use `password_hash` for security)
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        // Insert new user into the database
+        $query = "INSERT INTO user (name, email, password, role) VALUES (?, ?, ?, ?)";
+        $stmt = $db->prepare($query);
+        $stmt->bind_param("ssss", $name, $email, md5($password), $role);
 
-    // Insert new user into the database
-    $query = "INSERT INTO user (name, email, password, role) VALUES (?, ?, ?, ?)";
-    $stmt = $db->prepare($query);
-    $stmt->bind_param("ssss", $name, $email, $hashed_password, $role);
+        if ($stmt->execute()) {
+            // Redirect to the user list page after success
+            header("Location: manageUser.php");
+            exit;
+        } else {
+            echo "<p>Error adding user: " . $stmt->error . "</p>";
+        }
 
-    if ($stmt->execute()) {
-        // Redirect to the user list page after success
-        header("Location: manageUser.php");
-        exit;
-    } else {
-        echo "<p>Error adding user: " . $stmt->error . "</p>";
+        $stmt->close();
     }
 
-    $stmt->close();
-}
-
-$db->close();
+    $db->close();
 ?>
 
 
@@ -60,7 +57,7 @@ $db->close();
                     <div class="col-md-12" >
                         <div class="form-container" 
                             style="max-width: 500px; margin: 50px auto; background: #ffffff; border-radius: 8px; 
-                                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 30px;">
+                                    box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.1); padding: 30px;">
                             <h3 style="font-weight: 600; font-size: 35px; text-align: center; margin-bottom: 20px; color: #333;">
                                 Add User
                             </h3>
@@ -79,13 +76,18 @@ $db->close();
                                 </div>
                                 <div class="form-group">
                                     <label for="role">Role</label>
-                                    <input type="text" id="role" name="role" class="form-control" placeholder="Choose Role" required>
+                                    <select id="role" name="role" class="form-control" required>
+                                        <option value="user">User</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
                                 </div>
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-primary" 
-                                            style="background-color: #007bff; border-color: #007bff; margin-right: 10px;">Add User</button>
-                                    <a href="manageUser.php" class="btn btn-primary" 
-                                    style="background-color: #6c757d; border-color: #6c757d;">Cancel</a>
+                                    <button type="submit" class="btn btn-primary" style="background-color: #007bff; border-color: #007bff; margin-right: 10px;">
+                                        Add User
+                                    </button>
+                                    <a href="manageUser.php" class="btn btn-primary" style="background-color: #6c757d; border-color: #6c757d;">
+                                        Cancel
+                                    </a>
                                 </div>
                             </form>
                         </div>
