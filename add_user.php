@@ -11,9 +11,6 @@
         header("Location: index.php");
         exit();
     }
-
-    
-
 ?>
 
 <div class="container-fluid">

@@ -38,10 +38,8 @@
 
 <div class="container-fluid">
     <div class="row">
-
         <!-- Sidebar -->
         <?php include('sidebar.php') ?>
-        
         <!-- Main -->
         <div class="col-md-11" style="height: 100vh;">
             <div class="container" >
@@ -53,7 +51,7 @@
                             <h3 style="font-weight: 600; font-size: 40px">Welcome <?php echo htmlspecialchars($name) ?> 👋</h3>
                         </div>
                         <!-- Modul Row -->
-                        <div class="row" style="height: 500px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px; background-color: #F8F8F8; border-radius: 30px;">
+                        <div class="row" style="height: 400px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px; background-color: #F8F8F8; border-radius: 30px;">
                             <div style="margin: 20px;">
                                 <div class="col-md-4">
                                     <div class="panel panel-default">
