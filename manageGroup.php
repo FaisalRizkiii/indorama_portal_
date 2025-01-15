@@ -35,7 +35,7 @@
                         <div class="page-header">
                             <h3 style="font-weight: 600; font-size: 30px">Manage Groups</h3>
                         </div>
-                        <a href="add_user.php" class="btn btn-success" style="margin-bottom: 15px;">
+                        <a href="add_group.php" class="btn btn-success" style="margin-bottom: 15px;">
                             <i class="fas fa-user-plus"></i> Add New Group
                         </a>
                         <table id="userTable" class="table table-bordered table-striped table-hover" style="text-align: center;">
@@ -44,7 +44,7 @@
                                     <th>No</th>
                                     <th>Group Name</th>
                                     <th>Group Members</th>
-                                    <th>Menu</th>
+                                    <th></th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -68,7 +68,7 @@
                                     echo '<td>' . $no . '</td>';
                                     echo '<td>' . htmlspecialchars($row->group_name) . '</td>';
                                     echo '<td>' . implode(', ', $members) . '</td>';
-                                    echo '<td>Transaction, Transaction, Transaction, Transaction</td>';
+                                    echo '<td>Transaction, Transaction, Transaction, Transaction</td>'; // Category Menu
                                     echo '<td>';
                                     echo 
                                         '<a class="btn btn-primary btn-sm " style="margin: 3px;" href="edit_group.php?group_id=' . htmlspecialchars($row->group_id) . '">Edit Group</a>

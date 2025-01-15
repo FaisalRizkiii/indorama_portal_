@@ -19,16 +19,18 @@
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Collect form data
-        $group_name = $db->real_escape_string($_POST['group_name']);
+        $name = $db->real_escape_string($_POST['name']);
+        $URL = $db->real_escape_string($_POST['URL']);
+
 
         // Insert new user into the database
-        $query = "INSERT INTO `group` (group_name) VALUES (?)";
+        $query = "INSERT INTO menu (name, URL) VALUES (?, ?)";
         $stmt = $db->prepare($query);
-        $stmt->bind_param("s", $group_name);
+        $stmt->bind_param("ss", $name, $URL);
 
         if ($stmt->execute()) {
             // Redirect to the user list page after success
-            header("Location: manageGroup.php");
+            header("Location: manageMenu.php");
             exit;
         } else {
             echo "<p>Error adding user: " . $stmt->error . "</p>";
@@ -56,25 +58,22 @@
                             style="max-width: 500px; margin: 50px auto; background: #ffffff; border-radius: 8px; 
                                     box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.1); padding: 30px;">
                             <h3 style="font-weight: 600; font-size: 35px; text-align: center; margin-bottom: 20px; color: #333;">
-                                Add Group
+                                Add User
                             </h3>
                             <form method="POST">
                                 <div class="form-group">
-                                    <label for="group_name">Name</label>
-                                    <input type="text" id="group_name" name="group_name" class="form-control" placeholder="Enter Group Name" required>
+                                    <label for="name">Menu Name :</label>
+                                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter Menu Name" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="role">Member</label>
-                                    <select id="role" name="role" class="form-control" required>
-                                        <option value="user">User</option>
-                                        <option value="admin">Admin</option>
-                                    </select>
+                                    <label for="URL">URL</label>
+                                    <input type="text" id="URL" name="URL" class="form-control" placeholder="Enter URL" required>
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary" style="background-color: #007bff; border-color: #007bff; margin-right: 10px;">
-                                        Add Group
+                                        Add Menu
                                     </button>
-                                    <a href="manageGroup.php" class="btn btn-primary" style="background-color: #6c757d; border-color: #6c757d;">
+                                    <a href="manageMenu.php" class="btn btn-primary" style="background-color: #6c757d; border-color: #6c757d;">
                                         Cancel
                                     </a>
                                 </div>

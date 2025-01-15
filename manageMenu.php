@@ -7,9 +7,19 @@
         exit();
     }
 
-    if ($_SESSION['role'] != 'admin' ){
+    if ($_SESSION['role'] != 'admin') {
         header("Location: index.php");
         exit();
+    }
+
+    // Database connection
+    require_once('../indorama_portal_/lib/db_login.php');
+
+    // Fetch records for the current page
+    $query = "SELECT * FROM menu";
+    $result = $db->query($query);
+    if (!$result) {
+        die("Could not query the database: <br />" . $db->error . '<br>Query: ' . $query);
     }
 ?>
 
@@ -26,8 +36,39 @@
                         <div class="page-header">
                             <h3 style="font-weight: 600; font-size: 30px">Manage Menu</h3>
                         </div>
-                        <table>
-                            
+                        <a href="add_menu.php" class="btn btn-success" style="margin-bottom: 15px   ;">
+                            <i class="fas fa-user-plus"></i> Add New Menu
+                        </a>
+                        <table id="userTable" class="table table-bordered table-striped table-hover" style="text-align: center;">
+                            <thead>
+                                <tr class="info">
+                                    <th>No</th>
+                                    <th>ID MENU</th>
+                                    <th>Menu Name</th>
+                                    <th>Url</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php 
+                                    $no = 0;
+                                    while ($row = $result->fetch_object()) {
+                                        $no++;
+                                        echo '<tr>';
+                                        echo '<td>'. $no . '</td>';
+                                        echo '<td>'. $row->name . '</td>';
+                                        echo '<td>'. $row->URL . '</td>';
+                                        echo '<td>';
+                                        echo 
+                                            '
+                                            <a class="btn btn-primary btn-sm" href="edit_menu.php?id_menu='.$row->id_menu.'">Edit</a>&nbsp;&nbsp;
+                                            <a class="btn btn-danger btn-sm" href="delete_menu.php?id_menu='.$row->id_menu.'">Delete</a>
+                                            ';
+                                        echo '</td>';
+                                        echo '</tr>';
+                                    }
+                                ?>
+                            </tbody>
                         </table>
                     </div>
                 </div>
