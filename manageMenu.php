@@ -51,20 +51,24 @@
                             <tbody>
                                 <?php 
                                     $no = 0;
-                                    while ($row = $result->fetch_object()) {
-                                        $no++;
-                                        echo '<tr>';
-                                        echo '<td>'. $no . '</td>';
-                                        echo '<td>'. $row->name . '</td>';
-                                        echo '<td>'. $row->URL . '</td>';
-                                        echo '<td>';
-                                        echo 
-                                            '
-                                            <a class="btn btn-primary btn-sm" href="edit_menu.php?id_menu='.$row->id_menu.'">Edit</a>&nbsp;&nbsp;
-                                            <a class="btn btn-danger btn-sm" href="delete_menu.php?id_menu='.$row->id_menu.'">Delete</a>
-                                            ';
-                                        echo '</td>';
-                                        echo '</tr>';
+                                    if ($result->num_rows > 0){ 
+                                        while ($row = $result->fetch_object()) {
+                                            $no++;
+                                            echo '<tr>';
+                                            echo '<td>'. $no . '</td>';
+                                            echo '<td>'. $row->name . '</td>';
+                                            echo '<td>'. $row->URL . '</td>';
+                                            echo '<td>';
+                                            echo 
+                                                '
+                                                <a class="btn btn-primary btn-sm" href="edit_menu.php?id_menu='.$row->id_menu.'">Edit</a>&nbsp;&nbsp;
+                                                <a class="btn btn-danger btn-sm" href="delete_menu.php?id_menu='.$row->id_menu.'">Delete</a>
+                                                ';
+                                            echo '</td>';
+                                            echo '</tr>';
+                                        }
+                                    } else {
+                                        echo '<tr><td colspan="4" class="text-center">No data available</td></tr>';
                                     }
                                 ?>
                             </tbody>
@@ -75,5 +79,11 @@
         </div>
     </div>
 </div>
+
+<?php
+    $result->free();
+    $total_result->free();
+    $db->close();
+?>
 
 <?php include('footer.php') ?>

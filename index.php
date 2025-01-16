@@ -84,7 +84,7 @@
                                 <div class="col-md-4">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" data-toggle="collapse" data-target="#panelContent1" style="cursor: pointer;">
-                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:auto;" alt="Logo">
+                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:100px;" alt="Logo">
                                             <p style="margin-top: 20px; text-align: center;">
                                                 Judul Modul
                                             </p>
@@ -103,7 +103,7 @@
                                 <div class="col-md-4">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" data-toggle="collapse" data-target="#panelContent2" style="cursor: pointer;">
-                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:auto;" alt="Logo">
+                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:100px;" alt="Logo">
                                             <p style="margin-top: 20px; text-align: center;">
                                                 Judul Modul
                                             </p>
@@ -122,7 +122,7 @@
                                 <div class="col-md-4">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" data-toggle="collapse" data-target="#panelContent3" style="cursor: pointer;">
-                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:auto;" alt="Logo">
+                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:100px;" alt="Logo">
                                             <p style="margin-top: 20px; text-align: center;">
                                                 Judul Modul
                                             </p>
@@ -141,7 +141,7 @@
                                 <div class="col-md-4">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" data-toggle="collapse" data-target="#panelContent4" style="cursor: pointer;">
-                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:auto;" alt="Logo">
+                                            <img src="img/indorama_wide.jpg" style="width: 100%; height:100px;" alt="Logo">
                                             <p style="margin-top: 20px; text-align: center;">
                                                 Judul Modul
                                             </p>
@@ -160,7 +160,7 @@
                                 <div class="col-md-4">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" data-toggle="collapse" data-target="#panelContent5" style="cursor: pointer;">
-                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:auto;" alt="Logo">
+                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:100px;" alt="Logo">
                                             <p style="margin-top: 20px; text-align: center;">
                                                 Judul Modul
                                             </p>
@@ -179,7 +179,7 @@
                                 <div class="col-md-4">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" data-toggle="collapse" data-target="#panelContent6" style="cursor: pointer;">
-                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:auto;" alt="Logo">
+                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:100px;" alt="Logo">
                                             <p style="margin-top: 20px; text-align: center;">
                                                 Judul Modul
                                             </p>
@@ -198,7 +198,7 @@
                                 <div class="col-md-4">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" data-toggle="collapse" data-target="#panelContent7" style="cursor: pointer;">
-                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:auto;" alt="Logo">
+                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:100px;" alt="Logo">
                                             <p style="margin-top: 20px; text-align: center;">
                                                 Judul Modul
                                             </p>

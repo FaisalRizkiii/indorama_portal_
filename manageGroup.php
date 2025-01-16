@@ -51,31 +51,35 @@
                             <tbody>
                             <?php 
                                 $no = 0;
-                                while ($row = $result->fetch_object()) {
-                                    $no++;
-                                    // Get Group members
-                                    $query2 = "SELECT u.name 
-                                                FROM User u 
-                                                JOIN group_members gm 
-                                                ON u.id = gm.user_id 
-                                                WHERE gm.group_id = {$row->group_id}";
-                                    $result2 = $db->query($query2);
-                                    $members = [];
-                                    while ($member = $result2->fetch_object()) {
-                                        $members[] = htmlspecialchars($member->name); 
+                                if ($result->num_rows > 0){ 
+                                    while ($row = $result->fetch_object()) {
+                                        $no++;
+                                        // Get Group members
+                                        $query2 = "SELECT u.name 
+                                                    FROM User u 
+                                                    JOIN group_members gm 
+                                                    ON u.id = gm.user_id 
+                                                    WHERE gm.group_id = {$row->group_id}";
+                                        $result2 = $db->query($query2);
+                                        $members = [];
+                                        while ($member = $result2->fetch_object()) {
+                                            $members[] = htmlspecialchars($member->name); 
+                                        }
+                                        echo '<tr>';
+                                        echo '<td>' . $no . '</td>';
+                                        echo '<td>' . htmlspecialchars($row->group_name) . '</td>';
+                                        echo '<td>' . implode(', ', $members) . '</td>';
+                                        echo '<td>Transaction, Transaction, Transaction, Transaction</td>';
+                                        echo '<td>';
+                                        echo 
+                                            '<a class="btn btn-primary btn-sm " style="margin: 3px;" href="edit_group.php?group_id=' . htmlspecialchars($row->group_id) . '">Edit Group</a>
+                                            <a class="btn btn-primary btn-sm" style="margin: 3px;" href="edit_mappingmen.php?group_id=' . htmlspecialchars($row->group_id) . '">Edit Menu</a>
+                                            <a class="btn btn-danger btn-sm" style="margin: 3px;" href="delete_group.php?group_id=' . htmlspecialchars($row->group_id) . '">Delete Group</a>';
+                                        echo '</td>';
+                                        echo '</tr>';
                                     }
-                                    echo '<tr>';
-                                    echo '<td>' . $no . '</td>';
-                                    echo '<td>' . htmlspecialchars($row->group_name) . '</td>';
-                                    echo '<td>' . implode(', ', $members) . '</td>';
-                                    echo '<td>Transaction, Transaction, Transaction, Transaction</td>'; // Category Menu
-                                    echo '<td>';
-                                    echo 
-                                        '<a class="btn btn-primary btn-sm " style="margin: 3px;" href="edit_group.php?group_id=' . htmlspecialchars($row->group_id) . '">Edit Group</a>
-                                        <a class="btn btn-primary btn-sm" style="margin: 3px;" href="edit_mappingmen.php?group_id=' . htmlspecialchars($row->group_id) . '">Edit Menu</a>
-                                        <a class="btn btn-danger btn-sm" style="margin: 3px;" href="delete_group.php?group_id=' . htmlspecialchars($row->group_id) . '">Delete Group</a>';
-                                    echo '</td>';
-                                    echo '</tr>';
+                                } else {
+                                    echo '<tr><td colspan="4" class="text-center">No data available</td></tr>';
                                 }
                             ?>
                             </tbody>
@@ -86,5 +90,11 @@
         </div>
     </div>
 </div>
+
+<?php
+    $result->free();
+    $total_result->free();
+    $db->close();
+?>
 
 <?php include('footer.php') ?>

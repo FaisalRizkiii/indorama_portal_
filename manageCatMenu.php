@@ -36,7 +36,7 @@
                         <div class="page-header">
                             <h3 style="font-weight: 600; font-size: 30px">Manage Category Menu</h3>
                         </div>
-                        <a href="add_CatMenu.php" class="btn btn-success" style="margin-bottom: 15px   ;">
+                        <a href="add_catmenu.php" class="btn btn-success" style="margin-bottom: 15px   ;">
                             <i class="fas fa-user-plus"></i> Add New Category Menu
                         </a>
                         <table id="userTable" class="table table-bordered table-striped table-hover" style="text-align: center;">
@@ -51,30 +51,34 @@
                             <tbody>
                             <?php 
                                 $no = 0;
-                                while ($row = $result->fetch_object()) {
-                                    $no++;
-                                    // Get Group members
-                                    $query2 = "SELECT m.name 
-                                                FROM menu m
-                                                JOIN mapping_menu mm 
-                                                ON m.id_menu = mm.id_menu 
-                                                WHERE mm.id_categorymenu = {$row->id_categorymenu}";
-                                    $result2 = $db->query($query2);
-                                    $menus = [];
-                                    while ($menu = $result2->fetch_object()) {
-                                        $menus[] = htmlspecialchars($menu->name); 
-                                    }
-                                    echo '<tr>';
-                                        echo '<td>' . $no . '</td>';
-                                        echo '<td>' . htmlspecialchars($row->name) . '</td>';
-                                        echo '<td>' . implode(', ', $menus) . '</td>';
-                                        echo '<td>';
-                                        echo 
-                                            '<a class="btn btn-primary btn-sm" style="margin: 3px;" href="edit_mappingmen.php?group_id=">Edit</a>
-                                            <a class="btn btn-danger btn-sm" style="margin: 3px;" href="delete_group.php?group_id=">Delete</a>';
-                                        echo '</td>';
-                                    echo '</tr>';
-                                } 
+                                if ($result->num_rows > 0){ 
+                                    while ($row = $result->fetch_object()) {
+                                        $no++;
+                                        $query2 = "SELECT m.name 
+                                                    FROM menu m
+                                                    JOIN mapping_menu mm 
+                                                    ON m.id_menu = mm.id_menu 
+                                                    WHERE mm.id_categorymenu = {$row->id_categorymenu}";
+                                        $result2 = $db->query($query2);
+                                        $menus = [];
+                                        while ($menu = $result2->fetch_object()) {
+                                            $menus[] = htmlspecialchars($menu->name); 
+                                        }
+
+                                        echo '<tr>';
+                                            echo '<td>' . $no . '</td>';
+                                            echo '<td>' . htmlspecialchars($row->name) . '</td>';
+                                            echo '<td>' . implode(', ', $menus) . '</td>';
+                                            echo '<td>';
+                                            echo '
+                                                <a class="btn btn-primary btn-sm" href="edit_catmenu.php?id_categorymenu='.$row->id_categorymenu.'">Edit</a>&nbsp;&nbsp;
+                                                <a class="btn btn-danger btn-sm" href="delete_catmenu.php?id_categorymenu='.$row->id_categorymenu.'" onclick="return confirm(\'Are you sure you want to delete this category?\')">Delete</a>';
+                                            echo '</td>';
+                                        echo '</tr>';
+                                    } 
+                                } else {
+                                    echo '<tr><td colspan="4" class="text-center">No data available</td></tr>';
+                                }
                             ?>
                             </tbody>
                         </table>
@@ -84,5 +88,11 @@
         </div>
     </div>
 </div>
+
+<?php
+    $result->free();
+    $total_result->free();
+    $db->close();
+?>
 
 <?php include('footer.php') ?>

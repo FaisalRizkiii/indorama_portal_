@@ -75,23 +75,27 @@
                             </thead>
                             <tbody>
                                 <?php 
-                                    $no = $offset; // Initialize the counter starting from the offset
-                                    while ($row = $result->fetch_object()) {
-                                        $no++; // Increment the counter
-                                        echo '<tr>';
-                                        echo '<td>'. $no . '</td>';
-                                        echo '<td>'. $row->id . '</td>';
-                                        echo '<td>'. $row->name . '</td>';
-                                        echo '<td>'. $row->email . '</td>';
-                                        echo '<td>'. $row->role . '</td>';
-                                        echo '<td>';
-                                        echo 
-                                            '
-                                            <a class="btn btn-primary btn-sm" href="edit_user.php?id='.$row->id.'">Edit</a>&nbsp;&nbsp;
-                                            <a class="btn btn-danger btn-sm" href="delete_user.php?id='.$row->id.'">Delete</a>
-                                            ';
-                                        echo '</td>';
-                                        echo '</tr>';
+                                    $no = $offset;
+                                    if ($result->num_rows > 0){  
+                                        while ($row = $result->fetch_object()) {
+                                            $no++;
+                                            echo '<tr>';
+                                                echo '<td>'. $no . '</td>';
+                                                echo '<td>'. $row->id . '</td>';
+                                                echo '<td>'. $row->name . '</td>';
+                                                echo '<td>'. $row->email . '</td>';
+                                                echo '<td>'. $row->role . '</td>';
+                                                echo '<td>';
+                                                echo 
+                                                    '
+                                                    <a class="btn btn-primary btn-sm" href="edit_user.php?id='.$row->id.'">Edit</a>&nbsp;&nbsp;
+                                                    <a class="btn btn-danger btn-sm" href="delete_user.php?id='.$row->id.'">Delete</a>
+                                                    ';
+                                                echo '</td>';
+                                            echo '</tr>';
+                                        }
+                                    } else {
+                                        echo '<tr><td colspan="4" class="text-center">No data available</td></tr>';
                                     }
                                 ?>
                             </tbody>
@@ -122,7 +126,6 @@
 </div>
 
 <?php
-    // Free result and close the database connection
     $result->free();
     $total_result->free();
     $db->close();
