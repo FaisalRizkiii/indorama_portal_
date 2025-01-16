@@ -91,7 +91,6 @@
 
 <?php
     $result->free();
-    $total_result->free();
     $db->close();
 ?>
 
