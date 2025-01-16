@@ -30,7 +30,6 @@
         $stmt->bind_param("ssss", $name, $email, md5($password), $role);
 
         if ($stmt->execute()) {
-            // Redirect to the user list page after success
             header("Location: manageUser.php");
             exit;
         } else {

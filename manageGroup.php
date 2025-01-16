@@ -44,7 +44,7 @@
                                     <th>No</th>
                                     <th>Group Name</th>
                                     <th>Group Members</th>
-                                    <th></th>
+                                    <th>Category Menu</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>

@@ -29,7 +29,6 @@
         $stmt->bind_param("ss", $name, $URL);
 
         if ($stmt->execute()) {
-            // Redirect to the user list page after success
             header("Location: manageMenu.php");
             exit;
         } else {

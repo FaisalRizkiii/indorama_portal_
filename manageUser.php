@@ -18,7 +18,7 @@
     require_once('../indorama_portal_/lib/db_login.php');
 
     // Set the number of records per page
-    $records_per_page = 10;
+    $records_per_page = 5;
 
     // Get the current page number from the URL, default to 1
     $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -54,6 +54,7 @@
         <div class="col-md-11" style="height: 100vh;">
             <div class="container" >
                 <div class="row">
+                    <?php include('navLogo.php') ?>
                     <div class="col-md-12" >
                         <div class="page-header">
                             <h3 style="font-weight: 600; font-size: 30px">Manage Users</h3>

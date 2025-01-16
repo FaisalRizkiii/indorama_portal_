@@ -43,7 +43,6 @@
                             <thead>
                                 <tr class="info">
                                     <th>No</th>
-                                    <th>ID MENU</th>
                                     <th>Menu Name</th>
                                     <th>Url</th>
                                     <th>Action</th>
