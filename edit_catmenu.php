@@ -1,62 +1,67 @@
-<?php include('header.php')?>
-<?php
+<?php 
     session_start();
+    include('header.php');
+    require_once('../indorama_portal_/lib/db_login.php');
 
     if (!isset($_SESSION['id'])) {
         header("Location: login.php");
         exit();
     }
 
-    if ($_SESSION['role'] != 'admin' ){
+    if ($_SESSION['role'] != 'admin') {
         header("Location: index.php");
         exit();
     }
-?>
 
-<?php
-    // Database connection
-    require_once('../indorama_portal_/lib/db_login.php');
+    // Fetch data category menu
+    // Get user ID from query string
+    $id_categorymenu = isset($_GET['id_categorymenu']) ? intval($_GET['id_categorymenu']) : 0;
 
-    // Get Menu ID from query string
-    $id = isset($_GET['id_menu']) ? intval($_GET['id_menu']) : 0;
-
-    // Fetch Menu data
-    $query = "SELECT * FROM menu WHERE id_menu = ?";
+    // Fetch user data
+    $query = "SELECT * FROM category_menu WHERE id_categorymenu = ?";
     $stmt = $db->prepare($query);
-    $stmt->bind_param("i", $id);
+    $stmt->bind_param("i", $id_categorymenu);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows === 0) {
-        die("Menu not found!");
-    }
-
-    $Menu = $result->fetch_object();
-    $stmt->close();
+    $category_menu = $result->fetch_object();
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Update Menu data
-        $name = $db->real_escape_string($_POST['name']);
-        $URL = $db->real_escape_string($_POST['URL']);
+        $name = trim($db->real_escape_string($_POST['name']));
+        $menus = isset($_POST['menus']) ? explode(',', $db->real_escape_string($_POST['menus'])) : [];
 
+        // Begin transaction
+        $db->begin_transaction();
+        try {
+            $query = "INSERT INTO Category_Menu (name) VALUES (?)";
+            $stmt = $db->prepare($query);
+            $stmt->bind_param("s", $name);
+            $stmt->execute();
+            $id_categorymenu = $stmt->insert_id;
 
-        $updateQuery = "UPDATE menu SET name = ?, URL = ? WHERE id_menu = ?";
-        $stmt = $db->prepare($updateQuery);
-        $stmt->bind_param("ssi", $name, $URL, $id);
+            $query_mapping = "INSERT INTO mapping_menu (id_categorymenu, id_menu) VALUES (?, ?)";
+            $stmt_mapping = $db->prepare($query_mapping);
 
-        if ($stmt->execute()) {
-            header("Location: manageMenu.php");
+            foreach ($menus as $id_menu) {
+                $stmt_mapping->bind_param("ii", $id_categorymenu, $id_menu);
+                $stmt_mapping->execute();
+            }
+
+            $db->commit();
+            header("Location: manageCatMenu.php");
             exit;
-        } else {
-            echo "<p>Error updating Menu: " . $stmt->error . "</p>";
+        } catch (Exception $e) {
+            $db->rollback();
+            $_SESSION['error'] = "Nama menu kategori sudah ada.";
+            header("Location: add_CatMenu.php");
+            exit();
+        } finally {
+            $stmt->close();
+            $stmt_mapping->close();
+            $db->close();
         }
-
-        $stmt->close();
     }
-
-    $db->close();
 ?>
-
 
 <div class="container-fluid">
     <div class="row">
@@ -67,25 +72,66 @@
             <div class="container" >
                 <div class="row">
                     <!-- NavLogo -->
-                    <?php include('navLogo.php') ?>
                     <div class="col-md-12" >
                         <div class="form-container" 
                             style="max-width: 500px; margin: 50px auto; background: #ffffff; border-radius: 8px; 
                                     box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.1); padding: 30px;">
                             <h3 style="font-weight: 600; font-size: 30px; text-align: center; margin-bottom: 30px; color: #333;">
-                                Editing Menu <?php echo htmlspecialchars($Menu->name); ?>
+                                Editing <?php echo htmlspecialchars($category_menu->name); ?>
                             </h3>
                             <form method="POST">
                                 <div class="form-group">
-                                    <label for="name">Menu Name :</label>
-                                    <input type="text" id="name" name="name" class="form-control" value="<?php echo htmlspecialchars($Menu->name); ?>" required>
+                                    <label for="name">Name :</label>
+                                    <input type="text" id="name" name="name" class="form-control" value="<?php echo htmlspecialchars($category_menu->name); ?>" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="URL">URL :</label>
-                                    <input type="text" id="URL" name="URL" class="form-control" value="<?php echo htmlspecialchars($Menu->URL); ?>" required>
+                                    <label for="image">Image URL :</label>
+                                    <input type="text" id="image" name="image" class="form-control" value="<?php echo htmlspecialchars($category_menu->image_url); ?>" required>
+                                </div>
+                                <div class="form-group">
+                                    <div class="container" style="width: 100%; height: 80px; overflow-y: auto; border: 1px solid #ccc;">
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="menuSelect">Add More Menu:</label>
+                                    <select id="menuSelect" class="form-control">
+                                        <?php 
+                                            require_once('../indorama_portal_/lib/db_login.php');
+                                            $query2 = "SELECT * 
+                                                        FROM menu 
+                                                        WHERE id_menu 
+                                                        NOT IN (
+                                                                SELECT id_menu 
+                                                                FROM mapping_menu
+                                                                WHERE id_categorymenu = $id_categorymenu
+                                                                )
+                                                        ";
+                                            $result2 = $db->query($query2);
+                                            if (!$result2) {
+                                                die("Could not query the database: <br />" . $db->error . '<br>Query: ' . $query2);
+                                            }
+                                            if ($result2->num_rows > 0) {
+                                                while ($menu = $result2->fetch_object()) {
+                                                    echo '<option value="'. $menu->id_menu .'">'. $menu->name . '</option>';
+                                                }
+                                            } else {
+                                                echo '<option disabled>No menus available</option>';
+                                            }
+                                        ?>
+                                    </select>
+                                    <button type="button" id="addMenuButton" class="btn btn-primary" style="margin-top: 10px;">Add</button>
+                                </div>
+                                <div id="selectedMenus" class="form-group">
+                                    <p>Selected Menus:</p>
+                                    <div class="container" style="width: 100%; height: 80px; overflow-y: auto; border: 1px solid #ccc;">
+                                        <ul id="menuList">
+                                            <!-- List -->
+                                        </ul>
+                                    </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Update</button>
-                                <a href="manageMenu.php" class="btn btn-primary">Cancel</a>
+                                <a href="manageCatMenu.php" class="btn btn-primary">Cancel</a>
                             </form>
                         </div>
                     </div>
@@ -94,5 +140,60 @@
         </div>
     </div>
 </div>
+
+<script>
+    window.onload = function() {
+        <?php if (isset($_SESSION['error'])): ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '<?php echo $_SESSION['error']; ?>',
+            });
+            <?php unset($_SESSION['error']); ?>
+        <?php endif; ?>
+    }
+
+    document.getElementById('addMenuButton').addEventListener('click', function() {
+        var select = document.getElementById('menuSelect');
+        if (select.selectedIndex == -1) return; // Nothing selected
+
+        var selectedOption = select.options[select.selectedIndex];
+        var menuList = document.getElementById('menuList');
+        var li = document.createElement('li');
+        li.classList.add('menu-item'); // Add class for styling
+
+        var span = document.createElement('span');
+        span.textContent = selectedOption.text;
+        span.classList.add('menu-text');
+
+        var removeBtn = document.createElement('button');
+        removeBtn.innerHTML = '✕';
+        removeBtn.classList.add('remove-button');
+        removeBtn.onclick = function() {
+            menuList.removeChild(li);
+            select.add(new Option(selectedOption.text, selectedOption.value));
+        };
+
+        li.appendChild(span);
+        li.appendChild(removeBtn);
+        li.setAttribute('data-id', selectedOption.value);
+
+        menuList.appendChild(li);
+
+        select.remove(select.selectedIndex);
+    });
+
+    document.getElementById('categoryForm').addEventListener('submit', function(e) {
+        var selectedItems = document.querySelectorAll('#menuList li');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'menus';
+        hiddenInput.value = Array.from(selectedItems).map(item => item.getAttribute('data-id')).join(',');
+
+        this.appendChild(hiddenInput);
+    });
+</script>
+
+
 
 <?php include('footer.php') ?>

@@ -22,6 +22,7 @@
 
     // Get the current page number from the URL, default to 1
     $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
     if ($current_page < 1) {
         $current_page = 1;
     }
@@ -95,29 +96,12 @@
                                             echo '</tr>';
                                         }
                                     } else {
-                                        echo '<tr><td colspan="4" class="text-center">No data available</td></tr>';
+                                        echo '<tr><td colspan="6" class="text-center">No data available</td></tr>';
                                     }
                                 ?>
                             </tbody>
                         </table>
-                        <div>
-                            <?php
-                            // Generate pagination links
-                            if ($total_pages > 1) {
-                                echo '<nav>';
-                                echo '<ul class="pagination">';
-                                for ($i = 1; $i <= $total_pages; $i++) {
-                                    if ($i == $current_page) {
-                                        echo '<li class="page-item active"><a class="page-link" href="?page='.$i.'">'.$i.'</a></li>';
-                                    } else {
-                                        echo '<li class="page-item"><a class="page-link" href="?page='.$i.'">'.$i.'</a></li>';
-                                    }
-                                }
-                                echo '</ul>';
-                                echo '</nav>';
-                            }
-                            ?>
-                        </div>
+                        <?php include('pagination.php'); ?>
                     </div>
                 </div>
             </div>

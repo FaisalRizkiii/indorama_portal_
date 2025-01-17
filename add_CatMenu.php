@@ -1,51 +1,72 @@
-<?php include('header.php'); ?>
-<?php
+<?php 
     session_start();
+    require_once('header.php');
+    require_once('../indorama_portal_/lib/db_login.php');
 
     if (!isset($_SESSION['id'])) {
         header("Location: login.php");
         exit();
     }
 
-    if ($_SESSION['role'] != 'admin' ){
+    if ($_SESSION['role'] !== 'admin') {
         header("Location: index.php");
         exit();
     }
 
-    require_once('../indorama_portal_/lib/db_login.php');
-
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $name = $db->real_escape_string($_POST['name']);
-        $menus = explode(',', $db->real_escape_string($_POST['menus']));
+        $name = trim($_POST['name']);
+        $url = trim($_POST['url']);
+        $menus = isset($_POST['menus']) ? explode(',', $_POST['menus']) : [];
 
-        // Insert new category menu into the database
-        $query = "INSERT INTO Category_Menu (name) VALUES (?)";
-        $stmt = $db->prepare($query);
-        $stmt->bind_param("s", $name);
+        if (empty($menus)) {
+            $_SESSION['error'] = "Please select at least one menu.";
+            header("Location: add_CatMenu.php");
+            exit();
+        }
 
-        if ($stmt->execute()) {
-            $id_categorymenu = $stmt->insert_id;  // Get the last inserted id
+        $query_check = "SELECT COUNT(*) FROM Category_Menu WHERE name = ?";
+        $stmt_check = $db->prepare($query_check);
+        $stmt_check->bind_param("s", $name);
+        $stmt_check->execute();
+        $stmt_check->bind_result($count);
+        $stmt_check->fetch();
+        $stmt_check->close();
+
+        if ($count > 0) {
+            $_SESSION['error'] = "Category menu name already exists.";
+            header("Location: add_CatMenu.php");
+            exit();
+        }
+
+        $db->begin_transaction();
+        try {
+            $query = "INSERT INTO Category_Menu (name, image_url) VALUES (?, ?)";
+            $stmt = $db->prepare($query);
+            $stmt->bind_param("ss", $name, $url);
+            $stmt->execute();
+            $id_categorymenu = $stmt->insert_id;
 
             $query_mapping = "INSERT INTO mapping_menu (id_categorymenu, id_menu) VALUES (?, ?)";
             $stmt_mapping = $db->prepare($query_mapping);
 
-            // Handle multiple menu IDs
             foreach ($menus as $id_menu) {
                 $stmt_mapping->bind_param("ii", $id_categorymenu, $id_menu);
-                if (!$stmt_mapping->execute()) {
-                    echo "<p>Error adding mapping: " . $stmt_mapping->error . "</p>";
-                }
+                $stmt_mapping->execute();
             }
 
-            $stmt_mapping->close();
+            $db->commit();
             header("Location: manageCatMenu.php");
             exit;
-        } else {
-            echo "<p>Error adding category menu: " . $stmt->error . "</p>";
+        } catch (Exception $e) {
+            $db->rollback();
+            $_SESSION['error'] = "Error: " . $e->getMessage();
+            header("Location: add_CatMenu.php");
+            exit();
+        } finally {
+            $stmt->close();
+            $stmt_mapping->close();
+            $db->close();
         }
-
-        $stmt->close();
-        $db->close();
     }
 ?>
 
@@ -58,7 +79,7 @@
         <div class="col-md-11" style="height: 100vh;">
             <div class="container">
                 <div class="row">
-                    <!-- Optional NavLogo -->
+                    <!-- NavLogo -->
                     <?php include('navLogo.php'); ?>
                     <div class="col-md-12" >
                         <div class="form-container" 
@@ -73,30 +94,34 @@
                                     <input type="text" id="name" name="name" class="form-control" placeholder="Enter Menu Name" required>
                                 </div>
                                 <div class="form-group">
+                                    <label for="url">Image URL:</label>
+                                    <input type="text" id="url" name="url" class="form-control" placeholder="Enter Image URL" required>
+                                </div>
+                                <div class="form-group">
                                     <label for="menuSelect">Menu:</label>
                                     <select id="menuSelect" class="form-control">
-                                    <?php 
-                                        require_once('../indorama_portal_/lib/db_login.php');
-                                        $query2 = "SELECT * 
-                                                    FROM menu 
-                                                    WHERE id_menu 
-                                                    NOT IN (
-                                                            SELECT id_menu 
-                                                            FROM mapping_menu
-                                                            )
-                                                    ";
-                                        $result2 = $db->query($query2);
-                                        if (!$result2) {
-                                            die("Could not query the database: <br />" . $db->error . '<br>Query: ' . $query2);
-                                        }
-                                        if ($result2->num_rows > 0) {
-                                            while ($menu = $result2->fetch_object()) {
-                                                echo '<option value="'. $menu->id_menu .'">'. $menu->name . '</option>';
+                                        <?php 
+                                            require_once('../indorama_portal_/lib/db_login.php');
+                                            $query2 = "SELECT * 
+                                                        FROM menu 
+                                                        WHERE id_menu 
+                                                        NOT IN (
+                                                                SELECT id_menu 
+                                                                FROM mapping_menu
+                                                                )
+                                                        ";
+                                            $result2 = $db->query($query2);
+                                            if (!$result2) {
+                                                die("Could not query the database: <br />" . $db->error . '<br>Query: ' . $query2);
                                             }
-                                        } else {
-                                            echo '<option disabled>No menus available</option>';
-                                        }
-                                    ?>
+                                            if ($result2->num_rows > 0) {
+                                                while ($menu = $result2->fetch_object()) {
+                                                    echo '<option value="'. $menu->id_menu .'">'. $menu->name . '</option>';
+                                                }
+                                            } else {
+                                                echo '<option disabled>No menus available</option>';
+                                            }
+                                        ?>
                                     </select>
                                     <button type="button" id="addMenuButton" class="btn btn-primary" style="margin-top: 10px;">Add</button>
                                 </div>
@@ -107,7 +132,6 @@
                                             <!-- List -->
                                         </ul>
                                     </div>
-
                                 </div>
                                 <button type="submit" class="btn btn-success">Submit Category Menu</button>
                             </form>
@@ -120,22 +144,47 @@
 </div>
 
 <script>
+    window.onload = function() {
+        <?php if (isset($_SESSION['error'])): ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '<?php echo $_SESSION['error']; ?>',
+            });
+            <?php unset($_SESSION['error']); ?>
+        <?php endif; ?>
+    }
+
     document.getElementById('addMenuButton').addEventListener('click', function() {
         var select = document.getElementById('menuSelect');
+        if (select.selectedIndex == -1) return; // Nothing selected
+
         var selectedOption = select.options[select.selectedIndex];
         var menuList = document.getElementById('menuList');
         var li = document.createElement('li');
-        li.textContent = selectedOption.text;
-        li.setAttribute('data-id', selectedOption.value); // Store the menu ID in a data attribute
+        li.classList.add('menu-item'); // Add class for styling
 
-        // Append the list item to the list
+        var span = document.createElement('span');
+        span.textContent = selectedOption.text;
+        span.classList.add('menu-text');
+
+        var removeBtn = document.createElement('button');
+        removeBtn.innerHTML = '✕'; // Using a simple multiplication sign as a remove icon
+        removeBtn.classList.add('remove-button');
+        removeBtn.onclick = function() {
+            menuList.removeChild(li);
+            select.add(new Option(selectedOption.text, selectedOption.value));
+        };
+
+        li.appendChild(span);
+        li.appendChild(removeBtn);
+        li.setAttribute('data-id', selectedOption.value);
+
         menuList.appendChild(li);
 
-        // Optionally, you might want to remove the selected item from the dropdown
         select.remove(select.selectedIndex);
     });
 
-    // Prepare data to be submitted
     document.getElementById('categoryForm').addEventListener('submit', function(e) {
         var selectedItems = document.querySelectorAll('#menuList li');
         var hiddenInput = document.createElement('input');
@@ -146,6 +195,7 @@
         this.appendChild(hiddenInput);
     });
 </script>
+
 
 
 <?php include('footer.php') ?>

@@ -37,8 +37,61 @@
         #userTable th {
             text-align: center;
         }
+
+        .menu-item  {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px;
+            margin-bottom: 5px;
+            background-color: #f8f8f8;
+            border-radius: 4px;
+        }
+
+        .cat_menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px;
+            margin-bottom: 5px;
+            background-color: #f8f8f8;
+            border-radius: 4px;            
+        }
+
+        .menu-text {
+            flex-grow: 1;
+        }
+
+        .cat_menu-text {
+            flex-grow: 1;
+        }
+
+        .remove-button {
+            padding: 2px 6px;
+            color: white;
+            background-color: #ff6666;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .remove-button:hover {
+            background-color: #ff3333;
+        }
+
+        #menuList #cat_menuList {
+            list-style: none;
+            padding: 0;
+        }  
+
+        #cat_menuList {
+            list-style: none;
+            padding: 0;
+        }
     </style>
 
 </head>
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     
