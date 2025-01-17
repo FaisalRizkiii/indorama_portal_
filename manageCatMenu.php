@@ -51,7 +51,6 @@
     <div class="row">
         <!-- Sidebar -->
         <?php include('sidebar.php') ?>
-
         <!-- Main -->
         <div class="col-md-11" style="height: 100vh;">
             <div class="container" >

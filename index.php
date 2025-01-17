@@ -29,11 +29,6 @@
         // If no user found or error occurred, you can set a default value
         $name = 'Guest';
     }
-
-    // Close the statement and database connection
-    $result->free();
-    $stmt->close();
-    $db->close();
 ?>
 
 <div class="container-fluid">
@@ -53,167 +48,67 @@
                         <!-- Modul Row -->
                         <div class="row" style="height: 415px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px; background-color: #F8F8F8; border-radius: 30px;">
                             <div style="margin: 20px;">
-                                <div class="col-md-4">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" data-toggle="collapse" data-target="#panelContent" style="cursor: pointer;">
-                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:100px;"alt="Logo">
-                                            <p style="margin-top: 20px; text-align: center;">
-                                                Judul Modul
-                                            </p>
-                                        </div>
-                                        <div id="panelContent" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item"><a href="#">Action 1</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 2</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 3</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 1</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 2</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 3</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 1</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 2</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 3</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 1</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 2</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 3</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" data-toggle="collapse" data-target="#panelContent1" style="cursor: pointer;">
-                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:100px;" alt="Logo">
-                                            <p style="margin-top: 20px; text-align: center;">
-                                                Judul Modul
-                                            </p>
-                                        </div>
-                                        <div id="panelContent1" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item"><a href="#">Action 1</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 2</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 3</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" data-toggle="collapse" data-target="#panelContent2" style="cursor: pointer;">
-                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:100px;" alt="Logo">
-                                            <p style="margin-top: 20px; text-align: center;">
-                                                Judul Modul
-                                            </p>
-                                        </div>
-                                        <div id="panelContent2" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item"><a href="#">Action 1</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 2</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 3</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" data-toggle="collapse" data-target="#panelContent3" style="cursor: pointer;">
-                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:100px;" alt="Logo">
-                                            <p style="margin-top: 20px; text-align: center;">
-                                                Judul Modul
-                                            </p>
-                                        </div>
-                                        <div id="panelContent3" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item"><a href="#">Action 1</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 2</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 3</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" data-toggle="collapse" data-target="#panelContent4" style="cursor: pointer;">
-                                            <img src="img/indorama_wide.jpg" style="width: 100%; height:100px;" alt="Logo">
-                                            <p style="margin-top: 20px; text-align: center;">
-                                                Judul Modul
-                                            </p>
-                                        </div>
-                                        <div id="panelContent4" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item"><a href="#">Action 1</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 2</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 3</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" data-toggle="collapse" data-target="#panelContent5" style="cursor: pointer;">
-                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:100px;" alt="Logo">
-                                            <p style="margin-top: 20px; text-align: center;">
-                                                Judul Modul
-                                            </p>
-                                        </div>
-                                        <div id="panelContent5" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item"><a href="#">Action 1</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 2</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 3</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" data-toggle="collapse" data-target="#panelContent6" style="cursor: pointer;">
-                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:100px;" alt="Logo">
-                                            <p style="margin-top: 20px; text-align: center;">
-                                                Judul Modul
-                                            </p>
-                                        </div>
-                                        <div id="panelContent6" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item"><a href="#">Action 1</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 2</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 3</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" data-toggle="collapse" data-target="#panelContent7" style="cursor: pointer;">
-                                            <img src="img/indorama_logo.jpg" style="width: 100%; height:100px;" alt="Logo">
-                                            <p style="margin-top: 20px; text-align: center;">
-                                                Judul Modul
-                                            </p>
-                                        </div>
-                                        <div id="panelContent7" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item"><a href="#">Action 1</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 2</a></li>
-                                                    <li class="list-group-item"><a href="#">Action 3</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <?php
+                                    require_once('../indorama_portal_/lib/db_login.php');
+
+                                    $query2 = "SELECT cm.name , cm.id_categorymenu , cm.image_url
+                                                FROM user u
+                                                    JOIN group_members gm
+                                                        ON u.id = gm.user_id
+                                                    JOIN `group` g
+                                                        ON gm.group_id = g.group_id
+                                                    JOIN mapping_categorymenu mcm
+                                                        ON g.group_id = mcm.group_id
+                                                    JOIN category_menu cm
+                                                        ON mcm.id_categorymenu = cm.id_categorymenu
+                                                WHERE id = {$id}
+                                                ";
+
+                                    $result2 = $db->query($query2);
+                                    if (!$result2) {
+                                        die("Could not query the database: <br />" . $db->error . '<br>Query: ' . $query2);
+                                    }
+                                ?>
+
+                                <?php 
+                                    if ($result2->num_rows > 0){ 
+                                        while ($row = $result2->fetch_object()) {
+                                            echo '<div class="col-md-4">';
+                                                echo '<div class="panel panel-default">';
+                                                    echo '<div class="panel-heading" data-toggle="collapse" data-target="#panelContent'.($row->id_categorymenu) .'" style="cursor: pointer;"> ';
+                                                        echo '<img src="'. ($row->image_url) .'" style="width: 100%; height:100px;"alt="Logo">';
+                                                        echo '<p style="margin-top: 20px; text-align: center;">'.($row->name) . '</p>';
+                                                    echo '</div>';
+                                                    echo '<div id="panelContent'.($row->id_categorymenu).'" class="panel-collapse collapse">';
+                                                        echo '<div class="panel-body">';
+                                                            echo '<ul class="list-group">';
+                                                                $query3 = "SELECT m.id_menu, m.name, m.url
+                                                                            FROM category_menu cm
+                                                                                JOIN mapping_menu mm
+                                                                                    ON cm.id_categorymenu = mm.id_categorymenu
+                                                                                JOIN menu m
+                                                                                    ON mm.id_menu = m.id_menu
+                                                                            WHERE cm.id_categorymenu = {$row->id_categorymenu}
+                                                                            ";
+                    
+                                                                $result3 = $db->query($query3);
+                                                                if (!$result3) {
+                                                                    die("Could not query the database: <br />" . $db->error . '<br>Query: ' . $query3);
+                                                                }
+
+                                                                while ($row2 = $result3->fetch_object()){
+                                                                    echo '<li class="list-group-item"><a href="'. ($row2->url) .'">'.($row2->name) .'</a></li>';
+                                                                }
+                                                            echo '</ul>';
+                                                        echo '</div>';
+                                                    echo '</div>';
+                                                echo '</div>';
+                                            echo '</div>';
+                                        } 
+                                    } else {
+                                        echo '<tr><td colspan="4" class="text-center">No data available</td></tr>';
+                                    }
+                                ?>
                             </div>
                         </div>
                     </div>
