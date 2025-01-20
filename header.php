@@ -38,7 +38,7 @@
             text-align: center;
         }
 
-        .menu-item  {
+        .menu-item, .menu-itemDelete, .cat_menu-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -48,21 +48,7 @@
             border-radius: 4px;
         }
 
-        .cat_menu-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px;
-            margin-bottom: 5px;
-            background-color: #f8f8f8;
-            border-radius: 4px;            
-        }
-
-        .menu-text {
-            flex-grow: 1;
-        }
-
-        .cat_menu-text {
+        .menu-text, .cat_menu-text {
             flex-grow: 1;
         }
 
@@ -79,15 +65,10 @@
             background-color: #ff3333;
         }
 
-        #menuList #cat_menuList {
+        #menuList, #cat_menuList {
             list-style: none;
             padding: 0;
         }  
-
-        #cat_menuList {
-            list-style: none;
-            padding: 0;
-        }
     </style>
 
 </head>

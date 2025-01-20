@@ -103,7 +103,7 @@
                                         echo '</tr>';
                                     } 
                                 } else {
-                                    echo '<tr><td colspan="4" class="text-center">No data available</td></tr>';
+                                    echo '<tr><td colspan="5" class="text-center">No data available</td></tr>';
                                 }
                             ?>
                             </tbody>
