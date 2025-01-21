@@ -91,11 +91,12 @@
                                         while ($row = $result->fetch_object()) {
                                             $no++;
                                             // Get Group members
-                                            $query2 = "SELECT u.name 
+                                            $query2 = " SELECT u.name 
                                                         FROM User u 
                                                         JOIN group_members gm 
                                                         ON u.id = gm.user_id 
-                                                        WHERE gm.group_id = {$row->group_id}";
+                                                        WHERE gm.group_id = {$row->group_id}
+                                                        ";
                                             $result2 = $db->query($query2);
                                             $members = [];
                                             if ($result2) {
@@ -104,12 +105,14 @@
                                                 }
                                             }
 
-                                            $query3 = "
-                                                    SELECT c.name
-                                                    FROM `group` g
-                                                    JOIN mapping_categorymenu m ON g.group_id = m.group_id
-                                                    JOIN category_menu c ON m.id_categorymenu = c.id_categorymenu
-                                                    WHERE g.group_id = {$row->group_id}";
+                                            $query3 = " SELECT c.name
+                                                        FROM `group` g
+                                                        JOIN mapping_categorymenu m 
+                                                            ON g.group_id = m.group_id
+                                                        JOIN category_menu c 
+                                                            ON m.id_categorymenu = c.id_categorymenu
+                                                        WHERE g.group_id = {$row->group_id}
+                                                        ";
                                             $result3 = $db->query($query3);
                                             $catmenus = [];
                                             if ($result3) {

@@ -31,13 +31,13 @@
 
         $db->begin_transaction();
         try {
-            // UPDATE name and 
+            // UPDATE NAME, IMAGE URL 
             $query = "UPDATE category_menu SET name = ?, image_url = ? WHERE id_categorymenu = ?";
             $stmt = $db->prepare($query);
             $stmt->bind_param("ssi", $name, $url, $id_categorymenu);
             $stmt->execute();
             
-            // DELETE OLD MENU only if $menus is not empty
+            // DELETE OLD MENU
             if (!empty($menusToDelete)) {
                 // Delete selected menus
                 $query_delete = "DELETE FROM mapping_menu WHERE id_categorymenu = ? AND id_menu = ?";
@@ -48,7 +48,7 @@
                 }
             }
 
-            // INSERT NEW MENU only if $menus is not empty
+            // INSERT NEW MENU
             if (!empty($menus)) {
                 $query_mapping = "INSERT INTO mapping_menu (id_categorymenu, id_menu) VALUES (?, ?)";
                 $stmt_mapping = $db->prepare($query_mapping);
@@ -90,7 +90,7 @@
                         <div class="form-container" 
                             style="max-width: 500px; margin: 50px auto; background: #ffffff; border-radius: 8px; 
                                     box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.1); padding: 30px;">
-                            <h3 style="font-weight: 600; font-size: 15px; text-align: center; margin-bottom: 20px; color: #333;">
+                            <h3 style="font-weight: 600; font-size: 30px; text-align: center; margin-bottom: 20px; color: #333;">
                                 Editing <?php echo htmlspecialchars($category_menu->name); ?>
                             </h3>
                             <form method="POST" id="categoryForm">
@@ -132,7 +132,7 @@
                                 </div>
                                 <div id="deleteMenus" class="form-group">
                                     <p>Selected Menus to Delete:</p>
-                                    <div class="container" style="width: 100%; height: 80px; overflow-y: auto; border: 1px solid #ccc; border-radius:10px;">
+                                    <div class="container" style="width: 100%; height: 80px; overflow-y: auto; border: 1px solid #ccc; border-radius:10px">
                                         <ul id="menuListDelete">
                                             <!-- List  -->
                                         </ul>
@@ -168,7 +168,7 @@
                                 </div>
                                 <div id="selectedMenus" class="form-group">
                                     <p>Selected Menus:</p>
-                                    <div class="container" style="width: 100%; height: 80px; overflow-y: auto; border: 1px solid #ccc; border-radius:10px;">
+                                    <div class="container" style="width: 100%; height: 80px; overflow-y: auto; border: 1px solid #ccc; border-radius: 10px;">
                                         <ul id="menuList">
                                             <!-- List -->
                                         </ul>
@@ -238,18 +238,6 @@
 </script>
 
 <script>
-    window.onload = function() {
-    // Checking for errors on page load and displaying them if any
-    <?php if (isset($_SESSION['error'])): ?>
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: '<?php echo $_SESSION['error']; ?>',
-        });
-        <?php unset($_SESSION['error']); ?>
-    <?php endif; ?>
-    }
-
     document.getElementById('deleteMenuButton').addEventListener('click', function() {
         var select = document.getElementById('menuDelete');
         if (select.selectedIndex == -1) return;
