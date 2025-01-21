@@ -48,11 +48,11 @@
 ?>
 
 <div class="container-fluid">
-    <div class="row">
+    <div class="row" style="display: flex; flex-wrap: nowrap;">
         <!-- Sidebar -->
         <?php include('sidebar.php') ?>
         <!-- Main -->
-        <div class="col-md-11" style="height: 100vh;">
+        <div class="col-md-11">
             <div class="container" >
                 <div class="row">
                     <?php include('navLogo.php') ?>

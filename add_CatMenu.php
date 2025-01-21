@@ -71,12 +71,12 @@
 ?>
 
 <div class="container-fluid">
-    <div class="row">
+    <div class="row" style="display: flex; flex-wrap: nowrap;">
         <!-- Optional Sidebar -->
         <?php include('sidebar.php'); ?>
 
         <!-- Main Content Area -->
-        <div class="col-md-11" style="height: 100vh;">
+        <div class="col-md-11">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12" >
