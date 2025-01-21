@@ -26,7 +26,9 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $group_name = trim($_POST['group_name']);
         $users = isset($_POST['users']) ? explode(',', $_POST['users']) : [];
+        $catmenus = isset($_POST['catmenus']) ? explode(',', $_POST['catmenus']) : [];
         $usersToDelete = isset($_POST['usersToDelete']) ? explode(',', $_POST['usersToDelete']) : [];
+        $catmenusToDelete = isset($_POST['catmenusToDelete']) ? explode(',', $_POST['catmenusToDelete']) : [];
 
         $db->begin_transaction();
         try {
@@ -47,6 +49,17 @@
                 }
             }
 
+            // DELETE OLD CATEGORY MENUS
+            if (!empty($catmenusToDelete)) {
+                // Delete selected menus
+                $query_delete = "DELETE FROM mapping_categorymenu WHERE group_id = ? AND id_categorymenu = ?";
+                $stmt_delete = $db->prepare($query_delete);
+                foreach ($catmenusToDelete as $id_categorymenu) {
+                    $stmt_delete->bind_param("ii", $group_id, $id_categorymenu);
+                    $stmt_delete->execute();
+                }
+            }
+
             // INSERT NEW USER
             if (!empty($users)) {
                 $query_mapping = "INSERT INTO group_members (group_id, user_id) VALUES (?, ?)";
@@ -57,8 +70,18 @@
                     $stmt_mapping->execute();
                 }
             }
-            
 
+            // INSERT NEW CATEGORY MENUS
+            if (!empty($catmenus)) {
+                $query_mapping = "INSERT INTO mapping_categorymenu (group_id, id_categorymenu) VALUES (?, ?)";
+                $stmt_mapping = $db->prepare($query_mapping);
+            
+                foreach ($catmenus as $id_categorymenu) {
+                    $stmt_mapping->bind_param("ii", $group_id, $id_categorymenu);
+                    $stmt_mapping->execute();
+                }
+            }
+        
             $db->commit();
             header("Location: manageGroup.php");
             exit;
@@ -101,7 +124,7 @@
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="userDelete">Menu To Delete :</label>
+                                            <label for="userDelete">Member To Delete :</label>
                                             <select id="userDelete" class="form-control">
                                                 <?php 
                                                     require_once('../indorama_portal_/lib/db_login.php');
@@ -130,7 +153,7 @@
                                             <button type="button" id="deleteUserButton" class="btn btn-primary" style="margin-top: 10px;">Add</button>
                                         </div>
                                         <div id="deleteMenus" class="form-group">
-                                            <p>Selected Menus to Delete:</p>
+                                            <p>Selected Member to Delete:</p>
                                             <div class="container" style="width: 100%; height: 80px; overflow-y: auto; border: 1px solid #ccc; border-radius:10px">
                                                 <ul id="userListDelete">
                                                     <!-- List  -->
@@ -138,7 +161,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="userSelect">Menu To Add:</label>
+                                            <label for="userSelect">Member To Add:</label>
                                             <select id="userSelect" class="form-control">
                                                 <?php 
                                                     require_once('../indorama_portal_/lib/db_login.php');
@@ -167,7 +190,7 @@
                                             <button type="button" id="addUserButton" class="btn btn-primary" style="margin-top: 10px;">Add</button>
                                         </div>
                                         <div id="selectedMenus" class="form-group">
-                                            <p>Selected Menus:</p>
+                                            <p>Selected Member to Add:</p>
                                             <div class="container" style="width: 100%; height: 80px; overflow-y: auto; border: 1px solid #ccc; border-radius: 10px;">
                                                 <ul id="userList">
                                                     <!-- List -->
@@ -177,16 +200,16 @@
                                     </div>
                                     <div class="col"> 
                                         <div class="form-group">
-                                            <label for="userDelete">Menu To Delete :</label>
-                                            <select id="userDelete" class="form-control">
+                                            <label for="catMenuDelete">Category Menu To Delete :</label>
+                                            <select id="catMenuDelete" class="form-control">
                                                 <?php 
                                                     require_once('../indorama_portal_/lib/db_login.php');
-                                                    $query2 = "SELECT * 
-                                                                FROM user
-                                                                WHERE id 
+                                                    $query2 = " SELECT * 
+                                                                FROM category_menu
+                                                                WHERE id_categorymenu 
                                                                 IN (
-                                                                    SELECT user_id
-                                                                    FROM group_members
+                                                                    SELECT id_categorymenu
+                                                                    FROM mapping_categorymenu
                                                                     WHERE group_id = $group_id
                                                                     )
                                                                 ";
@@ -195,20 +218,56 @@
                                                         die("Could not query the database: <br />" . $db->error . '<br>Query: ' . $query2);
                                                     }
                                                     if ($result2->num_rows > 0) {
-                                                        while ($users = $result2->fetch_object()) {
-                                                            echo '<option value="'. $users->id .'">'. $users->name . '</option>';
+                                                        while ($catmenu = $result2->fetch_object()) {
+                                                            echo '<option value="'. $catmenu->id_categorymenu .'">'. $catmenu->name . '</option>';
                                                         }
                                                     } else {
                                                         echo '<option disabled>No menus available</option>';
                                                     }
                                                     ?>
                                             </select>
-                                            <button type="button" id="deleteUserButton" class="btn btn-primary" style="margin-top: 10px;">Add</button>
+                                            <button type="button" id="deleteCatMenuButton" class="btn btn-primary" style="margin-top: 10px;">Add</button>
                                         </div>
-                                        <div id="deleteMenus" class="form-group">
-                                            <p>Selected Menus to Delete:</p>
+                                        <div id="deleteCatMenu" class="form-group">
+                                            <p>Selected Member to Delete:</p>
                                             <div class="container" style="width: 100%; height: 80px; overflow-y: auto; border: 1px solid #ccc; border-radius:10px">
-                                                <ul id="userListDelete">
+                                                <ul id="catMenuListDelete">
+                                                    <!-- List  -->
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="catMenuAdd">Category Menu To Add :</label>
+                                            <select id="catMenuAdd" class="form-control">
+                                                <?php 
+                                                    require_once('../indorama_portal_/lib/db_login.php');
+                                                    $query2 = " SELECT * 
+                                                                FROM category_menu
+                                                                WHERE id_categorymenu 
+                                                                NOT IN (
+                                                                    SELECT id_categorymenu
+                                                                    FROM mapping_categorymenu
+                                                                    )
+                                                                ";
+                                                    $result2 = $db->query($query2);
+                                                    if (!$result2) {
+                                                        die("Could not query the database: <br />" . $db->error . '<br>Query: ' . $query2);
+                                                    }
+                                                    if ($result2->num_rows > 0) {
+                                                        while ($catmenu = $result2->fetch_object()) {
+                                                            echo '<option value="'. $catmenu->id_categorymenu .'">'. $catmenu->name . '</option>';
+                                                        }
+                                                    } else {
+                                                        echo '<option disabled>No menus available</option>';
+                                                    }
+                                                    ?>
+                                            </select>
+                                            <button type="button" id="addCatMenuButton" class="btn btn-primary" style="margin-top: 10px;">Add</button>
+                                        </div>
+                                        <div id="addCatMenu" class="form-group">
+                                            <p>Selected Member to Delete:</p>
+                                            <div class="container" style="width: 100%; height: 80px; overflow-y: auto; border: 1px solid #ccc; border-radius:10px">
+                                                <ul id="catMenuListAdd">
                                                     <!-- List  -->
                                                 </ul>
                                             </div>
@@ -304,6 +363,72 @@
         select.remove(select.selectedIndex);
     });
 
+    // Delete Category Menu Functionality
+    document.getElementById('deleteCatMenuButton').addEventListener('click', function () {
+        var select = document.getElementById('catMenuDelete');
+        if (select.selectedIndex === -1) {
+            alert("Please select a menu to delete.");
+            return;
+        }
+
+        var selectedOption = select.options[select.selectedIndex];
+        var userList = document.getElementById('catMenuListDelete');
+        var li = document.createElement('li');
+        li.classList.add('menu-item');
+
+        var span = document.createElement('span');
+        span.textContent = selectedOption.text;
+        span.classList.add('menu-text');
+
+        var removeBtn = document.createElement('button');
+        removeBtn.innerHTML = '✕';
+        removeBtn.classList.add('remove-button');
+        removeBtn.onclick = function () {
+            userList.removeChild(li);
+            select.add(new Option(selectedOption.text, selectedOption.value));
+        };
+
+        li.appendChild(span);
+        li.appendChild(removeBtn);
+        li.setAttribute('data-id', selectedOption.value);
+
+        userList.appendChild(li);
+        select.remove(select.selectedIndex);
+    });
+
+    // Delete Category Menu Functionality
+    document.getElementById('addCatMenuButton').addEventListener('click', function () {
+        var select = document.getElementById('catMenuAdd');
+        if (select.selectedIndex === -1) {
+            alert("Please select a menu to delete.");
+            return;
+        }
+
+        var selectedOption = select.options[select.selectedIndex];
+        var userList = document.getElementById('catMenuListAdd');
+        var li = document.createElement('li');
+        li.classList.add('menu-item');
+
+        var span = document.createElement('span');
+        span.textContent = selectedOption.text;
+        span.classList.add('menu-text');
+
+        var removeBtn = document.createElement('button');
+        removeBtn.innerHTML = '✕';
+        removeBtn.classList.add('remove-button');
+        removeBtn.onclick = function () {
+            userList.removeChild(li);
+            select.add(new Option(selectedOption.text, selectedOption.value));
+        };
+
+        li.appendChild(span);
+        li.appendChild(removeBtn);
+        li.setAttribute('data-id', selectedOption.value);
+
+        userList.appendChild(li);
+        select.remove(select.selectedIndex);
+    });
+
     // Unified Form Submit Handling for Insert and Delete
     document.getElementById('categoryForm').addEventListener('submit', function (e) {
         // Clear any old hidden inputs to prevent duplicates
@@ -319,12 +444,32 @@
             this.appendChild(inputtedInsert);
         }
 
+        // Handle Insert Category Menus
+        var selectedInsertItems = document.querySelectorAll('#catMenuListAdd li');
+        if (selectedInsertItems.length > 0) {
+            var inputtedInsert = document.createElement('input');
+            inputtedInsert.type = 'hidden';
+            inputtedInsert.name = 'catmenus';
+            inputtedInsert.value = Array.from(selectedInsertItems).map(item => item.getAttribute('data-id')).join(',');
+            this.appendChild(inputtedInsert);
+        }
+
         // Handle Delete Users
         var selectedDeleteItems = document.querySelectorAll('#userListDelete li');
         if (selectedDeleteItems.length > 0) {
             var inputtedDelete = document.createElement('input');
             inputtedDelete.type = 'hidden';
             inputtedDelete.name = 'usersToDelete';
+            inputtedDelete.value = Array.from(selectedDeleteItems).map(item => item.getAttribute('data-id')).join(',');
+            this.appendChild(inputtedDelete);
+        }
+
+        // Handle Delete Category Menus
+        var selectedDeleteItems = document.querySelectorAll('#catMenuListDelete li');
+        if (selectedDeleteItems.length > 0) {
+            var inputtedDelete = document.createElement('input');
+            inputtedDelete.type = 'hidden';
+            inputtedDelete.name = 'catmenusToDelete';
             inputtedDelete.value = Array.from(selectedDeleteItems).map(item => item.getAttribute('data-id')).join(',');
             this.appendChild(inputtedDelete);
         }
