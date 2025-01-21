@@ -70,7 +70,7 @@
         <?php include('sidebar.php'); ?>
 
         <!-- Main Content Area -->
-        <div class="col-md-11">
+        <div class="col-md-12">
             <div class="container">
                 <div class="row">
                     <?php include('navLogo.php'); ?>

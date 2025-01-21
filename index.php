@@ -31,7 +31,7 @@
 <div class="container-fluid">
     <div class="row" style="display: flex; flex-wrap: nowrap;">
         <?php include('sidebar.php'); ?>
-        <div class="col-md-11">
+        <div class="col-md-12">
             <div class="container">
                 <div class="row">
                     <?php include('navLogo.php'); ?>

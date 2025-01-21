@@ -36,7 +36,7 @@
 <div class="container-fluid">
     <div class="row" style="display: flex; flex-wrap: nowrap;">
         <?php include('sidebar.php'); ?>
-        <div class="col-md-11">
+        <div class="col-md-12">
             <div class="container">
                 <?php include('navLogo.php'); ?>
                 <div class="row">
@@ -58,22 +58,22 @@
                             </thead>
                             <tbody>
                                 <?php 
-                                $no = $offset;
-                                while ($row = $result->fetch_assoc()) {
-                                    $no++;
-                                    echo "<tr>";
-                                    echo "<td>" . $no . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['name']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['URL']) . "</td>";
-                                    echo "<td>
-                                            <a class='btn btn-primary btn-sm' href='edit_menu.php?id_menu={$row['id_menu']}'>Edit</a>&nbsp;&nbsp;
-                                            <a class='btn btn-danger btn-sm' href='delete_menu.php?id_menu={$row['id_menu']}'>Delete</a>
-                                        </td>";
-                                    echo "</tr>";
-                                }
-                                if ($result->num_rows == 0) {
-                                    echo '<tr><td colspan="4" class="text-center">No data available</td></tr>';
-                                }
+                                    $no = $offset;
+                                    while ($row = $result->fetch_assoc()) {
+                                        $no++;
+                                        echo "<tr>";
+                                        echo "<td>" . $no . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['name']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['URL']) . "</td>";
+                                        echo "<td>
+                                                <a class='btn btn-primary btn-sm' href='edit_menu.php?id_menu={$row['id_menu']}'>Edit</a>&nbsp;&nbsp;
+                                                <a class='btn btn-danger btn-sm' href='delete_menu.php?id_menu={$row['id_menu']}'>Delete</a>
+                                            </td>";
+                                        echo "</tr>";
+                                    }
+                                    if ($result->num_rows == 0) {
+                                        echo '<tr><td colspan="4" class="text-center">No data available</td></tr>';
+                                    }
                                 ?>
                             </tbody>
                         </table>

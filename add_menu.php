@@ -47,7 +47,7 @@
         <!-- Sidebar -->
         <?php include('sidebar.php') ?>
         <!-- Main -->
-        <div class="col-md-11">
+        <div class="col-md-12">
             <div class="container" >
                 <div class="row">
                     <?php include('navLogo.php'); ?>

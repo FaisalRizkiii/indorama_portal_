@@ -52,7 +52,7 @@
         <!-- Sidebar -->
         <?php include('sidebar.php') ?>
         <!-- Main -->
-        <div class="col-md-11">
+        <div class="col-md-12">
             <div class="container" >
                 <div class="row">
                     <?php include('navLogo.php') ?>
@@ -97,7 +97,7 @@
                                                 echo '<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 3px;">';
                                                     foreach ($menus as $menu) {
                                                         echo '<div style="text-align: center;">';
-                                                        echo '<span style="display: inline-block; padding: 5px 8px; font-size: 13px; border-radius: 5px; background-color:rgb(50, 115, 185); color: white;">' . $menu . '</span>';
+                                                        echo '<span class="badge" style="display: inline-block; padding: 5px 8px; font-size: 13px; border-radius: 5px; background-color:rgb(50, 115, 185); color: white;">' . $menu . '</span>';
                                                         echo '</div>';
                                                     }
                                                 echo '</div>';

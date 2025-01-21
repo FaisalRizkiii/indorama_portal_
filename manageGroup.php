@@ -63,7 +63,7 @@
         <!-- Sidebar -->
         <?php include('sidebar.php') ?>
         <!-- Main -->
-        <div class="col-md-11">
+        <div class="col-md-12">
             <div class="container" >
                 <div class="row">
                     <?php include('navLogo.php') ?>
@@ -125,10 +125,10 @@
                                                 echo '<td>' . $no . '</td>';
                                                 echo '<td>' . htmlspecialchars($row->group_name) . '</td>';
                                                 echo '<td>';
-                                                    echo '<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px;">';
+                                                    echo '<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;">';
                                                         foreach ($members as $member) {
                                                             echo '<div style="text-align: center;">';
-                                                            echo '<span class="badge badge-info" style="display: inline-block; padding: 5px 8px; font-size: 13px; border-radius: 5px; background-color: grey; color: white;">' . $member . '</span>';
+                                                            echo '<p class="badge badge-info" style="display: inline-block; padding: 8px; font-size: 12px; border-radius: 5px; background-color: grey; color: white;">' . $member . '</p>';
                                                             echo '</div>';
                                                         }
                                                     echo '</div>';
@@ -137,7 +137,7 @@
                                                     echo '<div style="display: grid; grid-template-columns: repeat(1, 1fr); gap: 3px;">';
                                                         foreach ($catmenus as $catmenu) {
                                                             echo '<div style="text-align: center;">';
-                                                            echo '<span class="badge" style="display: inline-block; padding: 5px 8px; font-size: 13px; border-radius: 5px; background-color:rgb(50, 115, 185); color: white;">' . $catmenu . '</span>';
+                                                            echo '<span class="badge" style="display: inline-block; padding: 8px ; font-size: 13px; border-radius: 5px; background-color:rgb(50, 115, 185); color: white;">' . $catmenu . '</span>';
                                                             echo '</div>';
                                                         }
                                                     echo '</div>';
