@@ -1,42 +1,41 @@
 <?php 
-include('header.php');
-session_start();
+    include('header.php');
+    session_start();
 
-if (!isset($_SESSION['id'])) {
-    header("Location: login.php");
-    exit();
-}
+    if (!isset($_SESSION['id'])) {
+        header("Location: login.php");
+        exit();
+    }
 
-if ($_SESSION['role'] != 'admin') {
-    header("Location: index.php");
-    exit();
-}
+    if ($_SESSION['role'] != 'admin') {
+        header("Location: index.php");
+        exit();
+    }
 
-require_once('../indorama_portal_/lib/db_login.php');
+    require_once('../indorama_portal_/lib/db_login.php');
 
-$records_per_page = 5;
-$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$current_page = max($current_page, 1);
+    $records_per_page = 5;
+    $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $current_page = max($current_page, 1);
 
-$offset = ($current_page - 1) * $records_per_page;
+    $offset = ($current_page - 1) * $records_per_page;
 
-$total_query = "SELECT COUNT(*) as total FROM menu";
-$total_result = $db->query($total_query);
-$total_row = $total_result->fetch_object();
-$total_records = $total_row->total;
-$total_pages = ceil($total_records / $records_per_page);
+    $total_query = "SELECT COUNT(*) as total FROM menu";
+    $total_result = $db->query($total_query);
+    $total_row = $total_result->fetch_object();
+    $total_records = $total_row->total;
+    $total_pages = ceil($total_records / $records_per_page);
 
-$query = "SELECT * FROM menu LIMIT ? OFFSET ?";
-$stmt = $db->prepare($query);
-$stmt->bind_param("ii", $records_per_page, $offset);
-$stmt->execute();
-$result = $stmt->get_result();
-
-include('sidebar.php');
+    $query = "SELECT * FROM menu LIMIT ? OFFSET ?";
+    $stmt = $db->prepare($query);
+    $stmt->bind_param("ii", $records_per_page, $offset);
+    $stmt->execute();
+    $result = $stmt->get_result();
 ?>
 
 <div class="container-fluid">
     <div class="row" style="display: flex; flex-wrap: nowrap;">
+        <?php include('sidebar.php'); ?>
         <div class="col-md-11">
             <div class="container">
                 <?php include('navLogo.php'); ?>
@@ -87,7 +86,7 @@ include('sidebar.php');
 </div>
 
 <?php
-$result->free();
-$db->close();
-include('footer.php');
+    $result->free();
+    $db->close();
+    include('footer.php');
 ?>

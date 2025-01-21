@@ -86,6 +86,7 @@
         <div class="col-md-11">
             <div class="container">
                 <div class="row">
+                    <?php include('navLogo.php'); ?>
                     <div class="col-md-12" >
                         <div class="form-container" 
                             style="max-width: 500px; margin: 50px auto; background: #ffffff; border-radius: 8px; 
@@ -196,35 +197,35 @@
         <?php endif; ?>
     }
 
-    document.getElementById('addMenuButton').addEventListener('click', function() {
-        var select = document.getElementById('menuSelect');
-        if (select.selectedIndex == -1) return;
+        document.getElementById('addMenuButton').addEventListener('click', function() {
+            var select = document.getElementById('menuSelect');
+            if (select.selectedIndex == -1) return;
 
-        var selectedOption = select.options[select.selectedIndex];
-        var menuList = document.getElementById('menuList');
-        var li = document.createElement('li');
-        li.classList.add('menu-item');
+            var selectedOption = select.options[select.selectedIndex];
+            var menuList = document.getElementById('menuList');
+            var li = document.createElement('li');
+            li.classList.add('menu-item');
 
-        var span = document.createElement('span');
-        span.textContent = selectedOption.text;
-        span.classList.add('menu-text');
+            var span = document.createElement('span');
+            span.textContent = selectedOption.text;
+            span.classList.add('menu-text');
 
-        var removeBtn = document.createElement('button');
-        removeBtn.innerHTML = '✕';
-        removeBtn.classList.add('remove-button');
-        removeBtn.onclick = function() {
-            menuList.removeChild(li);
-            select.add(new Option(selectedOption.text, selectedOption.value));
-        };
+            var removeBtn = document.createElement('button');
+            removeBtn.innerHTML = '✕';
+            removeBtn.classList.add('remove-button');
+            removeBtn.onclick = function() {
+                menuList.removeChild(li);
+                select.add(new Option(selectedOption.text, selectedOption.value));
+            };
 
-        li.appendChild(span);
-        li.appendChild(removeBtn);
-        li.setAttribute('data-id', selectedOption.value);
+            li.appendChild(span);
+            li.appendChild(removeBtn);
+            li.setAttribute('data-id', selectedOption.value);
 
-        menuList.appendChild(li);
+            menuList.appendChild(li);
 
-        select.remove(select.selectedIndex);
-    });
+            select.remove(select.selectedIndex);
+        });
 
     document.getElementById('categoryForm').addEventListener('submit', function(e) {
         var selectedItems = document.querySelectorAll('#menuList li');

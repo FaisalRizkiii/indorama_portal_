@@ -76,6 +76,7 @@
         <div class="col-md-11">
             <div class="container" >
                 <div class="row">
+                <?php include('navLogo.php'); ?>
                     <div class="col-md-12" >
                         <div class="form-container" 
                             style="max-width: 500px; margin: 50px auto; background: #ffffff; border-radius: 8px; 

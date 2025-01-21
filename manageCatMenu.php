@@ -93,7 +93,15 @@
                                         echo '<tr>';
                                             echo '<td>' . $no . '</td>';
                                             echo '<td>' . htmlspecialchars($row->name) . '</td>';
-                                            echo '<td>' . implode(', ', $menus) . '</td>';
+                                            echo '<td>';
+                                                echo '<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 3px;">';
+                                                    foreach ($menus as $menu) {
+                                                        echo '<div style="text-align: center;">';
+                                                        echo '<span style="display: inline-block; padding: 5px 8px; font-size: 13px; border-radius: 5px; background-color:rgb(50, 115, 185); color: white;">' . $menu . '</span>';
+                                                        echo '</div>';
+                                                    }
+                                                echo '</div>';
+                                            echo '</td>'; 
                                             echo '<td>' . $row->image_url .'</td>';
                                             echo '<td>';
                                             echo '

@@ -122,16 +122,31 @@
                                             }
 
                                             echo '<tr>';
-                                            echo '<td>' . $no . '</td>';
-                                            echo '<td>' . htmlspecialchars($row->group_name) . '</td>';
-                                            echo '<td>' . implode(', ', $members) . '</td>';
-                                            echo '<td>' . implode(', ', $catmenus) . '</td>';
-                                            echo '<td>';
-                                            echo 
-                                                '<a class="btn btn-primary btn-sm" style="margin: 3px;" href="edit_group.php?group_id=' . htmlspecialchars($row->group_id) . '">Edit Group</a>
-                                                <a class="btn btn-primary btn-sm" style="margin: 3px;" href="edit_mapping.php?group_id=' . htmlspecialchars($row->group_id) . '">Edit Category Menu</a>
-                                                <a class="btn btn-danger btn-sm" style="margin: 3px;" href="delete_group.php?group_id=' . htmlspecialchars($row->group_id) . '">Delete Group</a>';
-                                            echo '</td>';
+                                                echo '<td>' . $no . '</td>';
+                                                echo '<td>' . htmlspecialchars($row->group_name) . '</td>';
+                                                echo '<td>';
+                                                    echo '<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px;">';
+                                                        foreach ($members as $member) {
+                                                            echo '<div style="text-align: center;">';
+                                                            echo '<span class="badge badge-info" style="display: inline-block; padding: 5px 8px; font-size: 13px; border-radius: 5px; background-color: grey; color: white;">' . $member . '</span>';
+                                                            echo '</div>';
+                                                        }
+                                                    echo '</div>';
+                                                echo '</td>';                                                                                      
+                                                echo '<td>';
+                                                    echo '<div style="display: grid; grid-template-columns: repeat(1, 1fr); gap: 3px;">';
+                                                        foreach ($catmenus as $catmenu) {
+                                                            echo '<div style="text-align: center;">';
+                                                            echo '<span class="badge" style="display: inline-block; padding: 5px 8px; font-size: 13px; border-radius: 5px; background-color:rgb(50, 115, 185); color: white;">' . $catmenu . '</span>';
+                                                            echo '</div>';
+                                                        }
+                                                    echo '</div>';
+                                                echo '</td>'; 
+                                                echo '<td>';
+                                                echo 
+                                                    '<a class="btn btn-primary btn-sm" style="margin: 3px;" href="edit_group.php?group_id=' . htmlspecialchars($row->group_id) . '">Edit Group</a>
+                                                    <a class="btn btn-danger btn-sm" style="margin: 3px;" href="delete_group.php?group_id=' . htmlspecialchars($row->group_id) . '">Delete Group</a>';
+                                                echo '</td>';
                                             echo '</tr>';
                                         }
                                     } else {

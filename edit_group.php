@@ -107,6 +107,7 @@
         <div class="col-md-11">
             <div class="container">
                 <div class="row">
+                    <?php include('navLogo.php'); ?>
                     <div class="col-md-12" >
                         <div class="form-container" 
                             style="max-width: 500px; margin: 50px auto; background: #ffffff; border-radius: 8px; 
@@ -449,7 +450,7 @@
         if (selectedInsertItems.length > 0) {
             var inputtedInsert = document.createElement('input');
             inputtedInsert.type = 'hidden';
-            inputtedInsert.name = 'catmenus';
+            inputtedInsert.name = 'users';
             inputtedInsert.value = Array.from(selectedInsertItems).map(item => item.getAttribute('data-id')).join(',');
             this.appendChild(inputtedInsert);
         }

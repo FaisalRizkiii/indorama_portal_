@@ -34,7 +34,7 @@ if (isset($_GET['group_id'])) {
 
         // If everything is fine, commit transaction
         $db->commit();
-        $_SESSION['success'] = "Category and associated mappings successfully deleted.";
+        $_SESSION['success'] = "Group and associated mappings successfully deleted.";
     } catch (Exception $e) {
         // An error occurred, rollback any changes
         $db->rollback();
@@ -45,7 +45,7 @@ if (isset($_GET['group_id'])) {
 
 } else {
     // No group_id provided
-    $_SESSION['error'] = "No category menu specified for deletion.";
+    $_SESSION['error'] = "No group specified for deletion.";
 }
 
 // Redirect back to the user list page
