@@ -21,7 +21,6 @@
     $stmt->execute();
     $result = $stmt->get_result();
 
-    $name = 'Guest'; // Default name
     if ($result && $result->num_rows > 0) {
         $user = $result->fetch_assoc();
         $name = htmlspecialchars($user['name']);
@@ -58,33 +57,12 @@
                                             while ($row = $result2->fetch_object()) {
                                                 echo '<div class="col-md-4">';
                                                     echo '<div class="panel panel-default">';
-                                                        echo '<div class="panel-heading" data-toggle="collapse" data-target="#panelContent'.($row->id_categorymenu) .'" style="cursor: pointer;"> ';
-                                                            echo '<img src="'. ($row->image_url) .'" style="width: 100%; height:100px;"alt="Logo">';
-                                                            echo '<p style="margin-top: 20px; text-align: center;">'.($row->name) . '</p>';
-                                                        echo '</div>';
-                                                        echo '<div id="panelContent'.($row->id_categorymenu).'" class="panel-collapse collapse">';
-                                                            echo '<div class="panel-body">';
-                                                                echo '<ul class="list-group">';
-                                                                    $query3 = " SELECT m.id_menu, m.name, m.url
-                                                                                FROM category_menu cm
-                                                                                    JOIN mapping_menu mm
-                                                                                        ON cm.id_categorymenu = mm.id_categorymenu
-                                                                                    JOIN menu m
-                                                                                        ON mm.id_menu = m.id_menu
-                                                                                WHERE cm.id_categorymenu = {$row->id_categorymenu}
-                                                                                ";
-                        
-                                                                    $result3 = $db->query($query3);
-                                                                    if (!$result3) {
-                                                                        die("Could not query the database: <br />" . $db->error . '<br>Query: ' . $query3);
-                                                                    }
-
-                                                                    while ($row2 = $result3->fetch_object()){
-                                                                        echo '<li class="list-group-item"><a href="'. ($row2->url) .'">'.($row2->name) .'</a></li>';
-                                                                    }
-                                                                echo '</ul>';
+                                                        echo '<a href="menu_dashboard.php?id_categorymenu='.($row->id_categorymenu).'">';
+                                                            echo '<div class="panel-heading" style="cursor: pointer;"> ';
+                                                                echo '<img src="'. ($row->image_url) .'" style="width: 100%; height:100px;"alt="Logo">';
+                                                                echo '<p style="margin-top: 20px; text-align: center;">'.($row->name) . '</p>';
                                                             echo '</div>';
-                                                        echo '</div>';
+                                                        echo '</a>';
                                                     echo '</div>';
                                                 echo '</div>';
                                             } 
@@ -116,33 +94,12 @@
                                             while ($row = $result2->fetch_object()) {
                                                 echo '<div class="col-md-4">';
                                                     echo '<div class="panel panel-default">';
-                                                        echo '<div class="panel-heading" data-toggle="collapse" data-target="#panelContent'.($row->id_categorymenu) .'" style="cursor: pointer;"> ';
-                                                            echo '<img src="'. ($row->image_url) .'" style="width: 100%; height:100px;"alt="Logo">';
-                                                            echo '<p style="margin-top: 20px; text-align: center;">'.($row->name) . '</p>';
-                                                        echo '</div>';
-                                                        echo '<div id="panelContent'.($row->id_categorymenu).'" class="panel-collapse collapse">';
-                                                            echo '<div class="panel-body">';
-                                                                echo '<ul class="list-group">';
-                                                                    $query3 = " SELECT m.id_menu, m.name, m.url
-                                                                                FROM category_menu cm
-                                                                                    JOIN mapping_menu mm
-                                                                                        ON cm.id_categorymenu = mm.id_categorymenu
-                                                                                    JOIN menu m
-                                                                                        ON mm.id_menu = m.id_menu
-                                                                                WHERE cm.id_categorymenu = {$row->id_categorymenu}
-                                                                                ";
-                        
-                                                                    $result3 = $db->query($query3);
-                                                                    if (!$result3) {
-                                                                        die("Could not query the database: <br />" . $db->error . '<br>Query: ' . $query3);
-                                                                    }
-
-                                                                    while ($row2 = $result3->fetch_object()){
-                                                                        echo '<li class="list-group-item"><a href="'. ($row2->url) .'">'.($row2->name) .'</a></li>';
-                                                                    }
-                                                                echo '</ul>';
+                                                        echo '<a href="menu_dashboard.php?id_categorymenu='.($row->id_categorymenu).'">';
+                                                            echo '<div class="panel-heading" data-toggle="collapse" data-target="#panelContent'.($row->id_categorymenu) .'" style="cursor: pointer;"> ';
+                                                                echo '<img src="'. ($row->image_url) .'" style="width: 100%; height:100px;"alt="Logo">';
+                                                                echo '<p style="margin-top: 20px; text-align: center;">'.($row->name) . '</p>';
                                                             echo '</div>';
-                                                        echo '</div>';
+                                                        echo '</a>';
                                                     echo '</div>';
                                                 echo '</div>';
                                             } 
