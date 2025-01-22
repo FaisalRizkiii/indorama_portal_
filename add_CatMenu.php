@@ -108,6 +108,7 @@
                                                                 SELECT id_menu 
                                                                 FROM mapping_menu
                                                                 )
+                                                        ORDER BY name 
                                                         ";
                                             $result2 = $db->query($query2);
                                             if (!$result2) {

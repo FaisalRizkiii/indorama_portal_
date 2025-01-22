@@ -8,7 +8,7 @@
 ?>
 
 <!-- Sidebar -->
-<div class="col-md-1 sidebar" style="background: linear-gradient(135deg, #0D2F76, #1E497D); width: 80px; min-height: 100vh; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); display: flex; flex-direction: column; justify-content: center; align-items: center; top: 0; left: 0; z-index: 999; padding-top: 20px; border-radius: 0 20px 20px 0;">
+<div class="col-md-1 sidebar" style="background: linear-gradient(135deg, #0D2F76, #1E497D); width: 80px; min-height: 100vh; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); display: flex; flex-direction: column; justify-content: center; align-items: center; top: 0; left: 0; z-index: 999; padding-top: 20px;">
     <nav class="nav nav-sidebar" style="width: 100%; text-align: center;">
         <ul style="list-style: none; padding: 0; margin: 0;">
             <li style="margin-top: 5px; margin-bottom:5px;">

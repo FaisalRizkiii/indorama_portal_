@@ -137,6 +137,7 @@
                                                                     FROM group_members
                                                                     WHERE group_id = $group_id
                                                                     )
+                                                                ORDER BY name 
                                                                 ";
                                                     $result2 = $db->query($query2);
                                                     if (!$result2) {
@@ -169,11 +170,13 @@
                                                     $query = "SELECT id, name 
                                                                 FROM user 
                                                                 WHERE role = 'user' 
-                                                                AND id NOT IN ( 
-                                                                            SELECT user_id
-                                                                            FROM group_members
-                                                                            WHERE group_id = $group_id
-                                                                            ) 
+                                                                AND id 
+                                                                NOT IN ( 
+                                                                        SELECT user_id
+                                                                        FROM group_members
+                                                                        WHERE group_id = $group_id
+                                                                        ) 
+                                                                ORDER BY name 
                                                                 ";
                                                     $result = $db->query($query);
                                                     if (!$result) {
@@ -213,6 +216,7 @@
                                                                     FROM mapping_categorymenu
                                                                     WHERE group_id = $group_id
                                                                     )
+                                                                ORDER BY name 
                                                                 ";
                                                     $result2 = $db->query($query2);
                                                     if (!$result2) {
@@ -249,6 +253,7 @@
                                                                     SELECT id_categorymenu
                                                                     FROM mapping_categorymenu
                                                                     )
+                                                                ORDER BY name 
                                                                 ";
                                                     $result2 = $db->query($query2);
                                                     if (!$result2) {

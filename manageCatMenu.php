@@ -40,7 +40,7 @@
     $total_pages = ceil($total_records / $records_per_page);
 
     // Fetch records for the current page
-    $query = "SELECT * FROM category_menu LIMIT $records_per_page OFFSET $offset";
+    $query = "SELECT * FROM category_menu ORDER BY name LIMIT $records_per_page OFFSET $offset";
     $result = $db->query($query);
     if (!$result) {
         die("Could not query the database: <br />" . $db->error . '<br>Query: ' . $query);
@@ -97,7 +97,7 @@
                                                 echo '<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 3px;">';
                                                     foreach ($menus as $menu) {
                                                         echo '<div style="text-align: center;">';
-                                                        echo '<span class="badge" style="display: inline-block; padding: 5px 8px; font-size: 13px; border-radius: 5px; background-color:rgb(50, 115, 185); color: white;">' . $menu . '</span>';
+                                                        echo '<span class="badge" style="display: inline-block; padding: 8px; font-size: 12px; border-radius: 5px; background-color:rgb(50, 115, 185); color: white;">' . $menu . '</span>';
                                                         echo '</div>';
                                                     }
                                                 echo '</div>';

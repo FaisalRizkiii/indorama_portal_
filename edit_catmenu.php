@@ -115,7 +115,9 @@
                                                                 SELECT id_menu 
                                                                 FROM mapping_menu 
                                                                 WHERE id_categorymenu = $id_categorymenu
-                                                            )";
+                                                            )
+                                                        ORDER BY name    
+                                                        ";
                                             $result2 = $db->query($query2);
                                             if (!$result2) {
                                                 die("Could not query the database: <br>" . $db->error . '<br>Query: ' . $query2);
@@ -151,6 +153,7 @@
                                                                 SELECT id_menu 
                                                                 FROM mapping_menu
                                                                 )
+                                                        ORDER BY name 
                                                         ";
                                             $result2 = $db->query($query2);
                                             if (!$result2) {

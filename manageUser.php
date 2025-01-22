@@ -40,7 +40,7 @@
     $total_pages = ceil($total_records / $records_per_page);
 
     // Fetch records for the current page
-    $query = "SELECT * FROM user LIMIT $records_per_page OFFSET $offset";
+    $query = "SELECT * FROM user ORDER BY name LIMIT $records_per_page OFFSET $offset";
     $result = $db->query($query);
     if (!$result) {
         die("Could not query the database: <br />" . $db->error . '<br>Query: ' . $query);
@@ -90,7 +90,7 @@
                                                 echo 
                                                     '
                                                     <a class="btn btn-primary btn-sm" href="edit_user.php?id='.$row->id.'">Edit</a>&nbsp;&nbsp;
-                                                    <a class="btn btn-danger btn-sm" href="delete_user.php?id='.$row->id.'">Delete</a>
+                                                    <a  class="delete-btn btn btn-danger btn-sm" href="delete_user.php?id='.$row->id.'"  onclick="return confirm(\'Are you sure you want to delete this user?\')"> Delete</a>
                                                     ';
                                                 echo '</td>';
                                             echo '</tr>';
@@ -112,6 +112,6 @@
 <?php
     $result->free();
     $db->close();
-?>
+?>              
 
 <?php include('footer.php') ?>

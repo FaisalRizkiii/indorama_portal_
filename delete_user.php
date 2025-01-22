@@ -11,6 +11,22 @@ if (isset($_GET['id'])) {
     
     // Prepare the delete query using prepared statement to prevent SQL injection
     $query = "DELETE FROM user WHERE id = ?";
+
+    $query2 = "DELETE FROM group_members WHERE id = ?";
+    
+    if ($stmt = $db->prepare($query2)) {
+        $stmt->bind_param("i", $id);
+        
+        if ($stmt->execute()) {
+            $_SESSION['success'] = "User successfully deleted.";
+        } else {
+            $_SESSION['error'] = "Error deleting user: " . $db->error;
+        }
+        
+        $stmt->close();
+    } else {
+        $_SESSION['error'] = "Error preparing delete statement: " . $db->error;
+    }
     
     if ($stmt = $db->prepare($query)) {
         $stmt->bind_param("i", $id);
@@ -25,6 +41,7 @@ if (isset($_GET['id'])) {
     } else {
         $_SESSION['error'] = "Error preparing delete statement: " . $db->error;
     }
+
     
     $db->close();
 } else {

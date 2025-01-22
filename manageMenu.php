@@ -26,7 +26,7 @@
     $total_records = $total_row->total;
     $total_pages = ceil($total_records / $records_per_page);
 
-    $query = "SELECT * FROM menu LIMIT ? OFFSET ?";
+    $query = "SELECT * FROM menu ORDER BY name LIMIT ? OFFSET ?";
     $stmt = $db->prepare($query);
     $stmt->bind_param("ii", $records_per_page, $offset);
     $stmt->execute();
@@ -67,7 +67,7 @@
                                         echo "<td>" . htmlspecialchars($row['URL']) . "</td>";
                                         echo "<td>
                                                 <a class='btn btn-primary btn-sm' href='edit_menu.php?id_menu={$row['id_menu']}'>Edit</a>&nbsp;&nbsp;
-                                                <a class='btn btn-danger btn-sm' href='delete_menu.php?id_menu={$row['id_menu']}'>Delete</a>
+                                                <a class='delete-btn btn btn-danger btn-sm' href='delete_menu.php?id_menu={$row['id_menu']}'>Delete</a>
                                             </td>";
                                         echo "</tr>";
                                     }
@@ -90,3 +90,20 @@
     $db->close();
     include('footer.php');
 ?>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const deleteButtons = document.querySelectorAll(".delete-btn");
+        deleteButtons.forEach(function(button) {
+            button.addEventListener("click", function(event) {
+                const confirmed = confirm("Are you sure you want to delete this menu?");
+                if (!confirmed) {
+                    event.preventDefault();
+                }
+            });
+        });
+    });
+</script>
+
+
+<?php include('footer.php') ?>

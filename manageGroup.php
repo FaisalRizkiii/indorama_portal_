@@ -51,7 +51,7 @@
     $total_pages = ceil($total_records / $records_per_page);
 
     // Fetch records for the current page
-    $query = "SELECT * FROM `group` LIMIT $records_per_page OFFSET $offset";
+    $query = "SELECT * FROM `group` ORDER BY group_name LIMIT $records_per_page OFFSET $offset";
     $result = $db->query($query);
     if (!$result) {
         die("Could not query the database: <br />" . $db->error . '<br>Query: ' . $query);
@@ -137,7 +137,7 @@
                                                     echo '<div style="display: grid; grid-template-columns: repeat(1, 1fr); gap: 3px;">';
                                                         foreach ($catmenus as $catmenu) {
                                                             echo '<div style="text-align: center;">';
-                                                            echo '<span class="badge" style="display: inline-block; padding: 8px ; font-size: 13px; border-radius: 5px; background-color:rgb(50, 115, 185); color: white;">' . $catmenu . '</span>';
+                                                            echo '<span class="badge" style="display: inline-block; padding: 8px ; font-size: 12px; border-radius: 5px; background-color:rgb(50, 115, 185); color: white;">' . $catmenu . '</span>';
                                                             echo '</div>';
                                                         }
                                                     echo '</div>';
@@ -145,7 +145,7 @@
                                                 echo '<td>';
                                                 echo 
                                                     '<a class="btn btn-primary btn-sm" style="margin: 3px;" href="edit_group.php?group_id=' . htmlspecialchars($row->group_id) . '">Edit Group</a>
-                                                    <a class="btn btn-danger btn-sm" style="margin: 3px;" href="delete_group.php?group_id=' . htmlspecialchars($row->group_id) . '">Delete Group</a>';
+                                                    <a class="btn btn-danger btn-sm" style="margin: 3px;" href="delete_group.php?group_id=' . htmlspecialchars($row->group_id) . '"  onclick="return confirm(\'Are you sure you want to delete this Group?\')">Delete Group</a>';
                                                 echo '</td>';
                                             echo '</tr>';
                                         }

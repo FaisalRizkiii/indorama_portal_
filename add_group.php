@@ -127,6 +127,7 @@
                                                                 SELECT id_categorymenu 
                                                                 FROM mapping_categorymenu
                                                                 )
+                                                        ORDER BY name 
                                                         ";
                                             $result2 = $db->query($query2);
                                             if (!$result2) {
