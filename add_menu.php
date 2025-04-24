@@ -56,7 +56,7 @@
                             style="max-width: 500px; margin: 50px auto; background: #ffffff; border-radius: 8px; 
                                     box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.1); padding: 30px;">
                             <h3 style="font-weight: 600; font-size: 35px; text-align: center; margin-bottom: 20px; color: #333;">
-                                Add User
+                                Add Menu
                             </h3>
                             <form method="POST">
                                 <div class="form-group">

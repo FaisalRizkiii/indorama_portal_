@@ -11,7 +11,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-4" style="background: linear-gradient(135deg, #0D2F76, #1E497D); height: 100vh; border-radius: 0px 20px 20px 0px;">
+        <div class="col-md-4" style="background: linear-gradient(135deg, #0D2F76, #1E497D); height: 100vh;">
             <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background: linear-gradient(135deg, #0D2F76, #1E497D); color: white;">
                 <h3 style="font-weight: 640; font-size: 30px; margin-bottom: 20px; text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);">
                     LOGIN
@@ -42,8 +42,8 @@
                 </form>
             </div>
         </div>
-        <div class="col-md-8" style="display: flex;">
-            
+        <div class="col-md-8" style="display: flex; padding: 0; height: 100vh;">
+            <img src="img/indorama_login.jpeg" alt="" style="width: 100%; height: 100%;">
         </div>
     </div>
 </div>
